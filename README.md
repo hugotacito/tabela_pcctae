@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![alt tag](https://raw.github.com/dogfalo/materialize/master/images/materialize.gif)
 ===========
 Materialize, a CSS Framework based on material design
@@ -26,3 +27,7 @@ Materialize, a CSS Framework based on material design
 - v0.9
   - Touch interactions added
   - tons more...
+=======
+tabelapcctae
+============
+>>>>>>> 38eece80cd8fb6e6d4f941f29264bfa1d105a731
