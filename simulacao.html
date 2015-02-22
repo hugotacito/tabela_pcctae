@@ -1,12 +1,12 @@
-<html>
+<html lang="pt_BR" ng-app="tabela_pcctae">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Tabela PCCTAE - 0.0.1</title>
 
   <!-- CSS  -->
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="bower_components/materialize/bin/materialize.css"  media="screen,projection"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
   <nav class="red lighten-2">
@@ -36,7 +36,7 @@
             </select>
           </div>
 
-          <div class="col s12">
+          <div class="col s12 m6">
             <h2 class="flow-text">Qualificação:</h2>
             <select>
               <option value="" disabled selected>Escolha uma opção</option>
@@ -51,16 +51,16 @@
             </select>
           </div>
 
-          <div class="col s12">
+          <div class="col s12 m6">
             <h2 class="flow-text">Relação:</h2>
             <select>
-              <option value="" disabled selected></option>
+              <option value="" disabled selected>Escolha uma opção</option>
               <option value="1">Direta</option>
               <option value="2">Indireta</option>
             </select>
           </div>
 
-          <div class="col s6">
+          <div class="col s12 m6">
             <h2 class="flow-text">Classe:</h2>
             <select>
               <option value="" disabled selected>Escolha uma opção</option>
@@ -91,7 +91,7 @@
             </select>
           </div>
 
-          <div class="col s6">
+          <div class="col s12 m6">
             <h2 class="flow-text">Nível:</h2>
             <select>
               <option value="" disabled selected>Escolha uma opção</option>
@@ -121,10 +121,13 @@
             </select>
           </div>
 
-          <div class="col s12">
+          <div class="col s12" ng-controller="gratificacao">
             <h2 class="flow-text">Gratificação:</h2>
+            <select ng-model="gratificacao">
+              <option ng-repeat="cd in cds_fgs" value="{{$index}}">{{cd}}</option>
+            </select>
             <select>
-              <option value="" disabled selected></option>
+              <option value="" selected>Opcional</option>
               <option value="1">CD-1</option>
               <option value="2">CD-2</option>
               <option value="3">CD-3</option>
@@ -151,7 +154,7 @@
           <div class="col s12">
             <h2 class="flow-text">Auxílio Pré-Escolar:</h2>
             <select>
-              <option value="" disabled selected></option>
+              <option value="" disabled selected>Número de dependentes</option>
             </select>
           </div>
 
@@ -294,12 +297,36 @@
         <a class="white-text lighten-4 right" href="https://github.com/Dogfalo/materialize/blob/master/LICENSE">MIT License</a>
       </div>
     </div>
-  </footer>  
-
-
+  </footer>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
+  <script src="bower_components/materialize/bin/materialize.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('select').material_select();
+    });
+    var phonecatApp = angular.module('tabela_pcctae', []);
+
+    phonecatApp.controller('gratificacao', ['$scope', '$http', function ($scope, $http) {
+      $http.get('json/properties.json').success(function(data) {
+        console.log(data["cds_fgs"]);
+        $scope.everything = data;
+        $scope.cds_fgs = data["cds_fgs"];
+        $('select').material_select();
+      }).
+      error(function(data, status, headers, config) {
+        console.log(data, status, headers, config);
+      });
+      $scope.cds_fgas = [
+        {'name': 'Nexus S',
+         'value': 'Fast just got faster with Nexus S.'},
+        {'name': 'Motorola XOOM™ with Wi-Fi',
+         'value': 'The Next, Next Generation tablet.'},
+        {'name': 'MOTOROLA XOOM™',
+         'value': 'The Next, Next Generation tablet.'}
+      ];
+    }]);
+  </script>
   </body>
 </html>
