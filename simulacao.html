@@ -6,7 +6,6 @@
   <!-- CSS  -->
   <link type="text/css" rel="stylesheet" href="bower_components/materialize/bin/materialize.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
   <nav class="red lighten-2">
@@ -21,139 +20,62 @@
       </div>
     </div>
   </nav>
-  <div class="section no-pad-bot" id="conteudo">
+  <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller">
     <div class="container">
       <div class="row">
         <form class="floating-content col s12 m12 l7">
           <div class="col s12">
             <h2 class="flow-text">Estrutura do Vencimento Básico do PCCTAE:</h2>
-            <select>
-              <option value="" disabled selected>Escolha uma opção</option>
-              <option value="1">Julho de 2010</option>
-              <option value="2">Março de 2013: Aumento 5%</option>
-              <option value="3">Março de 2014: Aumento 5% + Step (3,7%)</option>
-              <option value="4">Março de 2015: Aumento 5% + Step (3,8%)</option>
+            <select name="estrutura" ng-change="update_estrutura()" ng-model="estrutura" ng-options="value.key as value.value for value in estruturas" reload-select>
+              <option value='' disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12 m6">
             <h2 class="flow-text">Qualificação:</h2>
-            <select>
-              <option value="" disabled selected>Escolha uma opção</option>
-              <option value="0">Nível Exigido pelo Cargo</option>
-              <option value="1">Ensino Fundamental Completo</option>
-              <option value="2">Ensino Médio Completo</option>
-              <option value="3">Técnico</option>
-              <option value="4">Graduado</option>
-              <option value="5">Especialista</option>
-              <option value="6">Mestre</option>
-              <option value="7">Doutor</option>
+            <select name="qualificacao" ng-change="update_qualificacao()" ng-model="qualificacao" ng-options="value for value in qualificacoes" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12 m6">
             <h2 class="flow-text">Relação:</h2>
-            <select>
-              <option value="" disabled selected>Escolha uma opção</option>
-              <option value="1">Direta</option>
-              <option value="2">Indireta</option>
+            <select name="relacao" ng-change="update_relacao()" ng-model="relacao" ng-options="value.key as value.key for value in relacoes" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12 m6">
             <h2 class="flow-text">Classe:</h2>
-            <select>
-              <option value="" disabled selected>Escolha uma opção</option>
-              <option value="A1">AI</option>
-              <option value="A2">AII</option>
-              <option value="A3">AIII</option>
-              <option value="A4">AIV</option>
-
-              <option value="D1">DI</option>
-              <option value="D2">DII</option>
-              <option value="D3">DIII</option>
-              <option value="D4">DIV</option>
-
-              <option value="C1">CI</option>
-              <option value="C2">CII</option>
-              <option value="C3">CIII</option>
-              <option value="C4">CIV</option>
-
-              <option value="D1">DI</option>
-              <option value="D2">DII</option>
-              <option value="D3">DIII</option>
-              <option value="D4">DIV</option>
-
-              <option value="E1">EI</option>
-              <option value="E2">EII</option>
-              <option value="E3">EIII</option>
-              <option value="E4">EIV</option>
+            <select name="classe" ng-change="update_classe()" ng-model="classe" ng-options="value as value for value in classes" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12 m6">
             <h2 class="flow-text">Nível:</h2>
-            <select>
-              <option value="" disabled selected>Escolha uma opção</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
+            <select name="nivel" ng-change="update_nivel()" ng-model="nivel" ng-options="value as value for value in niveis" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12">
-            <h2 class="flow-text">Auxílio Alimentação:</h2>
-            <select>
-              <option value="1" disabled selected>R$ 373,00</option>
-            </select>
-          </div>
-
-          <div class="col s12" ng-controller="gratificacao">
             <h2 class="flow-text">Gratificação:</h2>
-            <select ng-model="gratificacao">
-              <option ng-repeat="cd in cds_fgs" value="{{$index}}">{{cd}}</option>
-            </select>
-            <select>
-              <option value="" selected>Opcional</option>
-              <option value="1">CD-1</option>
-              <option value="2">CD-2</option>
-              <option value="3">CD-3</option>
-              <option value="4">CD-4</option>
-              <option value="5">FG-1</option>
-              <option value="6">FG-2</option>
-              <option value="7">FG-3</option>
-              <option value="8">FG-4</option>
-              <option value="9">FG-5</option>
-              <option value="10">FG-6</option>
-              <option value="11">FG-7</option>
-              <option value="12">FG-8</option>
-              <option value="13">FG-9</option>
+            <select name="gratificacao" ng-change="update_gratificacao()" ng-model="gratificacao" ng-options="value as value for value in gratificacoes" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12">
             <h2 class="flow-text">Adicional Periculosidade/Insalubridade:</h2>
-            <select>
-              <option value="" disabled selected></option>
+            <select name="insalubridade" ng-change="update_insalubridade()" ng-model="insalubridade" ng-options="value.key as value.value for value in insalubridades" reload-select>
+              <option value='' disabled selected>Escolha uma opção</option>
             </select>
           </div>
 
           <div class="col s12">
             <h2 class="flow-text">Auxílio Pré-Escolar:</h2>
-            <select>
+            <select name="preescola" ng-change="update_preescola()" ng-model="preescola" ng-options="value as value for value in niveis" reload-select>
               <option value="" disabled selected>Número de dependentes</option>
             </select>
           </div>
@@ -163,7 +85,7 @@
             
             <div class="row">
               <div class="input-field col s12">
-                <input id="" type="text">
+                <input id="" type="text" name="transporte">
                 <label>Valor</label>
               </div>
             </div>
@@ -174,7 +96,7 @@
             
             <div class="row">
               <div class="input-field col s12">
-                <input id="" type="text">
+                <input id="" type="text" name="outras">
                 <label>Valor</label>
               </div>
             </div>
@@ -185,7 +107,7 @@
             
             <div class="row">
               <div class="input-field col s12">
-                <input id="" type="text">
+                <input id="" type="text" name="saude">
                 <label>Valor</label>
               </div>
             </div>
@@ -199,15 +121,15 @@
             <tbody>
               <tr style="font-weight:bold;">
                 <td>Salário Bruto</td>
-                <td class="blue-text">R$ 0,00</td>
+                <td class="blue-text">R$ {{salario_bruto}}</td>
               </tr>
               <tr style="font-weight:bold;">
                 <td>Total de Descontos</td>
-                <td class="red-text">R$ 0,00</td>
+                <td class="red-text">R$ {{total_desconto}}</td>
               </tr>
               <tr style="font-weight:bold;">
                 <td>Salário Líquido</td>
-                <td class="green-text">R$ 0,00</td>
+                <td class="green-text">R$ {{salario_liquido}}</td>
               </tr>
             </tbody>
           </table>
@@ -224,35 +146,39 @@
               </tr>
               <tr>
                 <td>Vencimento Básico</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{vencimento_basico}}</td>
               </tr>
               <tr>
                 <td>Incentivo à Qualificação</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{incentivo_qualificacao}}</td>
               </tr>
               <tr>
                 <td>Gratificação</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{gratificacao_basico}}</td>
               </tr>
               <tr>
                 <td>Adicional Peric./Ins.</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{adicional_insalubridade}}</td>
+              </tr>
+              <tr>
+                <td>Auxílio Alimentação</td>
+                <td>R$ {{auxilio_alimentacao}}</td>
               </tr>
               <tr>
                 <td>Auxílio Pré-Escolar</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{auxilio_preescola}}</td>
               </tr>
               <tr>
                 <td>Auxílio Transporte</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{auxilio_transporte}}</td>
               </tr>
               <tr>
                 <td>Outras Gratificações</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{outras}}</td>
               </tr>
               <tr>
                 <td>Saúde Suplementar</td>
-                <td>R$ 0,00</td>
+                <td>R$ {{saude_suplementar}}</td>
               </tr>
 
               <tr style="border:none;">
@@ -264,15 +190,15 @@
               </tr>
               <tr>
                 <td>Base para INSS</td>
-                <td class="red-text">R$ 0,00</td>
+                <td class="red-text">R$ {{base_inss}}</td>
               </tr>
               <tr>
                 <td>Alíquota INSS</td>
-                <td class="red-text"></td>
+                <td class="red-text">{{aliquota_inss}}</td>
               </tr>
               <tr>
                 <td>Desconto INSS</td>
-                <td class="red-text">R$ 0,00</td>
+                <td class="red-text">R$ {{desconto_inss}}</td>
               </tr>
             </tbody>
           </table>
@@ -300,32 +226,63 @@
   </footer>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="bower_components/materialize/bin/materialize.js"></script>
+  <script src="js/materialize.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-      $('select').material_select();
-    });
-    var phonecatApp = angular.module('tabela_pcctae', []);
-
-    phonecatApp.controller('gratificacao', ['$scope', '$http', function ($scope, $http) {
+    var tabelaPcctae = angular.module('tabela_pcctae', []);
+    
+    tabelaPcctae
+    .directive('reloadSelect', function($timeout) {
+      return function(scope, element, attrs, ngModel) {
+        $timeout(function() {
+          scope.$emit('reloadSelect', element, attrs, ngModel);
+        });
+      };
+    })
+    .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
+      $scope.update_estrutura = function(){
+        console.log($scope.estrutura);
+      };
+      $scope.update_qualificacao = function(){
+        console.log($scope.qualificacao);
+      };
+      $scope.update_relacao = function(){
+        $scope.percentuais_relacao = jQuery.grep($scope.relacoes, function(e){ return e.key == $scope.relacao; })[0].value;
+        console.log($scope.percentuais_relacao);
+      };
+      $scope.update_classe = function(){
+        console.log($scope.classe);
+      };
+      $scope.update_nivel = function(){
+        console.log($scope.nivel);
+      };
+      $scope.update_gratificacao = function(){
+        console.log($scope.gratificacao);
+      };
+      $scope.update_insalubridade = function(){
+        console.log($scope.insalubridade);
+      };
+      $scope.update_preescola = function(){
+        $scope.auxilio_preescola = $scope.everything[$scope.estrutura]["auxilio_preescola"] * $scope.preescola 
+        console.log($scope.auxilio_preescola);
+      };
+      $scope.$on('reloadSelect', function(scope, element, attrs, ngModel){
+          jQuery('select').material_select();
+      });
       $http.get('json/properties.json').success(function(data) {
-        console.log(data["cds_fgs"]);
         $scope.everything = data;
-        $scope.cds_fgs = data["cds_fgs"];
-        $('select').material_select();
+        $scope.estruturas = data["estruturas"];
+        $scope.qualificacoes = data["qualificacoes"];
+        $scope.relacoes = data["relacoes"];
+        $scope.classes = data["classes"];
+        $scope.niveis = data["niveis"];
+        $scope.gratificacoes = data["gratificacoes"];
+        $scope.insalubridades = data["insalubridades"];
       }).
       error(function(data, status, headers, config) {
         console.log(data, status, headers, config);
       });
-      $scope.cds_fgas = [
-        {'name': 'Nexus S',
-         'value': 'Fast just got faster with Nexus S.'},
-        {'name': 'Motorola XOOM™ with Wi-Fi',
-         'value': 'The Next, Next Generation tablet.'},
-        {'name': 'MOTOROLA XOOM™',
-         'value': 'The Next, Next Generation tablet.'}
-      ];
+      $('select').disabled = true;
     }]);
   </script>
   </body>
