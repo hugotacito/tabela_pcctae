@@ -8,7 +8,6 @@
 
   "qualificacoes":
   [
-    "Nível Exigido pelo Cargo",
     "Ensino Fundamental Completo",
     "Ensino Médio Completo",
     "Técnico",
@@ -18,11 +17,12 @@
     "Doutor"
   ],
 
+  "saude_suplementar" : "95,48",
+  
   "relacoes" : [
     {
       "key" : "Direta", 
       "value" : [
-        0,
         0.1,
         0.15,
         0.2,
@@ -35,7 +35,6 @@
     {
       "key" : "Indireta",
       "value" : [
-        0,
         0.1,
         0.15,
         0.1,
@@ -109,9 +108,9 @@
 
   "insalubridades" : 
   [
-    {"key" : "1.05", "value" : "5%"},
-    {"key" : "1.1", "value" : "10%"},
-    {"key" : "1.2", "value" : "20%"}
+    {"key" : "0.05", "value" : "5%"},
+    {"key" : "0.1", "value" : "10%"},
+    {"key" : "0.2", "value" : "20%"}
   ],
 
   "menor_vencimento" : 1034.59,
@@ -159,7 +158,7 @@
     "auxilio_preescola" : 66,
     "alimentacao" : 373,
     "dependente" : 171.97,
-    "imposto_renda" : [
+    "irpf" : [
       [1710.78, 0, 0],
       [2563.91, 0.075, 128.31],
       [3418.59, 0.150, 320.60],
@@ -195,14 +194,14 @@
     "auxilio_preescola" : 66,
     "alimentacao" : 373,
     "dependente" : 179.71,
-    "imposto_renda" : [
+    "irpf" : [
       [1787.77, 0, 0],
       [2679.29, 0.075, 134.08],
       [3572.43, 0.150, 335.03],
       [4463.81, 0.225, 602.96],
       [4463.82, 0.275, 826.15]
     ],
-    "irpf" : [
+    "inss" : [
       [1317.07, 0.08],
       [2195.12, 0.09],
       [4390.24, 0.11]
@@ -241,7 +240,7 @@
     "inss" : [
       [1399.12, 0.08],
       [2331.88, 0.09],
-      [44663.75, 0.11]
+      [4463.75, 0.11]
     ],
     "gratificacoes" : [
       6667.14,
