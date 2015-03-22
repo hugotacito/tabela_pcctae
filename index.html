@@ -1,27 +1,285 @@
-<html lang="en" ng-app="StarterApp">
-  <head>
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="js/main.css">
-  </head>
-  <body layout="column" ng-controller="AppCtrl">
-    <md-toolbar layout="row">
-      <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
-        <span class="visually-hidden">Menu</span>
-      </button>
-      <h1>Hello World</h1>
-    </md-toolbar>
-    <div layout="row" flex>
-        <div layout="column" flex id="content">
-            <md-content layout="column" flex class="md-padding">
-              Testing
-            </md-content>
-        </div>
+<html lang="pt_BR" ng-app="tabela_pcctae">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Tabela PCCTAE - 0.0.1</title>
+
+  <!-- CSS  -->
+  <link type="text/css" rel="stylesheet" href="bower_components/materialize/bin/materialize.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/main.css"  media="screen,projection"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+</head>
+<body>
+  <nav class="blue darken-2">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a id="logo-container" href="#" class="brand-logo">
+          Tabela PCCTAE
+        </a>
+        <ul id="nav-mobile" class="right side-nav">
+          <li><a href="#">Versão Desktop</a></li>
+        </ul><a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+      </div>
     </div>
-    <!-- Angular Material Dependencies -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
-    <script src="bower_components/angular-material/angular-material.min.js"></script>
-    <script src="js/main.js"></script>
+  </nav>
+  <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller">
+    <div class="row">
+      <form class="floating-content col s12 m12 l7">
+        <div class="col s12">
+          <div class="row">
+            <label class="flow-text">Estrutura do Vencimento Básico do PCCTAE:</label>
+            <select name="estrutura" ng-change="update()" ng-model="estrutura" ng-options="value.key as value.value for value in estruturas" reload-select>
+              <option value='' disabled selected>Escolha uma opção</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="row">
+          <label class="flow-text">Classe:</label>
+          <select name="classe" ng-change="update()" ng-model="classe" ng-options="value.key as value.value for value in classes" reload-select>
+            <option value=''  disabled selected>Escolha uma opção</option>
+          </select>
+
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="row">
+          <label class="flow-text">Nível:</label>
+          <select name="nivel" ng-change="update()" ng-model="nivel" ng-options="value as value for value in niveis" reload-select>
+            <option value=''  disabled selected>Escolha uma opção</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="row">
+          <label class="flow-text">Qualificação:</label>
+          <select name="qualificacao" ng-change="update()" ng-model="qualificacao" ng-options="value as value for value in qualificacoes" reload-select>
+            <option value=''>Nível Exigido pelo Cargo</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="row">
+          <label class="flow-text">Relação:</label>
+          <select name="relacao" ng-change="update()" ng-model="relacao" ng-options="value.value as value.key for value in relacoes" reload-select>
+            <option value=''  disabled selected>Escolha uma opção</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+          <label class="flow-text">Gratificação:</label>
+          <select name="gratificacao" ng-change="update()" ng-model="gratificacao" ng-options="value as value for value in gratificacoes" reload-select>
+            <option value=''  selected>Escolha uma opção</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+          <label class="flow-text">Adicional Periculosidade/Insalubridade:</label>
+          <select name="insalubridade" ng-change="update()" ng-model="insalubridade" ng-options="value.key as value.value for value in insalubridades" reload-select>
+            <option value='' selected>Escolha uma opção</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+          <label class="flow-text">Auxílio Pré-Escolar:</label>
+          <select name="preescola" ng-change="update()" ng-model="preescola" ng-options="value as value for value in niveis" reload-select>
+            <option value='' selected>Número de dependentes</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <label>Auxílio Transporte:</label>
+              <input type="text" id="auxilio_transporte_input" name="auxilio_transporte_input" ng-model="auxilio_transporte_input" ng-change="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <label>Outras Gratificações</label>
+              <input id="" type="text" ng-model="outras_input" ng-change="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <label>Saúde Suplementar</label>
+              <input id="" type="text" ng-model="saude_suplementar_input" ng-change="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <label>Previdência Complementar</label>
+              <input id="" type="text" ng-model="previdencia_complementar_input" ng-change="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12" ng-show="bruto_maior_teto">
+          <div class="row">
+            <label class="flow-text">Percentual FUNPRESP:</label>
+            <select name="funpresp_input" ng-change="update()" ng-model="funpresp_input" ng-options="value.key as value.value for value in percentuais_funpresp" reload-select>
+              <option value=''  selected>Opcional</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="col s12">
+          <h2 class="flow-text">Opções</h2>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="modelo_novo_previdencia_input" name="modelo_novo_previdencia_input" type="checkbox" ng-model="modelo_novo_previdencia_input" ng-change="update()" />
+              <label for="modelo_novo_previdencia_input">Modelo novo de previdência</label>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="floating-content col s12 m12 l4 offset-l1">
+        <h2 class="flow-text">Resultado da Simulação</h2>
+
+        <table>
+          <tbody>
+            <tr style="font-weight:bold;">
+              <td>Salário Bruto</td>
+              <td class="blue-text">R$ {{salario_bruto.replace('.', ',')}}</td>
+            </tr>
+            <tr style="font-weight:bold;">
+              <td>Total de Descontos</td>
+              <td class="red-text">R$ {{total_desconto.replace('.', ',')}}</td>
+            </tr>
+            <tr style="font-weight:bold;">
+              <td>Salário Líquido</td>
+              <td class="green-text">R$ {{salario_liquido.replace('.', ',')}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="flow-text">Quadro Resumo</h2>
+        <table>
+          <tbody>
+            <tr>
+              <td colspan="2">
+                <h6 class="grey-text lighten-1">
+                  <strong>Receitas</strong>
+                </h6>
+              </td>
+            </tr>
+            <tr>
+              <td>Vencimento Básico</td>
+              <td>R$ {{vencimento_basico.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Incentivo à Qualificação</td>
+              <td>R$ {{incentivo_qualificacao.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Gratificação</td>
+              <td>R$ {{gratificacao_basico.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Adicional Peric./Ins.</td>
+              <td>R$ {{adicional_insalubridade.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Auxílio Alimentação</td>
+              <td>R$ {{auxilio_alimentacao.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Auxílio Pré-Escolar</td>
+              <td>R$ {{auxilio_preescola.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Auxílio Transporte</td>
+              <td>R$ {{auxilio_transporte.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Outras Gratificações</td>
+              <td>R$ {{outras.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Saúde Suplementar</td>
+              <td>R$ {{saude_suplementar.replace('.', ',')}}</td>
+            </tr>
+
+            <tr style="border:none;">
+              <td colspan="2">
+                <h6 class="grey-text lighten-1">
+                  <strong>Descontos</strong>
+                </h6>
+              </td>
+            </tr>
+            <tr>
+              <td>Base para INSS</td>
+              <td class="red-text">R$ {{base_inss.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Alíquota INSS</td>
+              <td class="red-text">{{aliquota_inss}}</td>
+            </tr>
+            <tr>
+              <td>Desconto INSS</td>
+              <td class="red-text">R$ {{desconto_inss.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Base para Imposto de Renda</td>
+              <td class="red-text">{{base_irpf.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Alíquota do Imposto de Renda</td>
+              <td class="red-text">{{aliquota_irpf}}</td>
+            </tr>
+            <tr>
+              <td>Desconto Imposto de Renda</td>
+              <td class="red-text">R$ {{desconto_irpf.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Previdência Complementar</td>
+              <td class="red-text">R$ {{previdencia_complementar.replace('.', ',')}}</td>
+            <tr>
+            <tr ng-show="bruto_maior_teto">
+              <td>Previdência FUNPRESP</td>
+              <td class="red-text">R$ {{funpresp.replace('.', ',')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer class="blue darken-3">
+
+    <div class="footer-copyright valign-wrapper">
+      <div class="container white-text valign">
+        © 2015 Tabela PCCTAE, todos os direitos reservados.
+        Feito com <a class="white-text" href="https://angularjs.org/">AngularJS</a> e 
+        <a class="white-text" href="http://materializecss.com/">Materialize</a>.
+        <a class="white-text lighten-4 right" href="LICENSE">MIT License</a>
+      </div>
+    </div>
+  </footer>
+  <!--  Scripts-->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="js/materialize.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="js/main.js"></script>
   </body>
 </html>

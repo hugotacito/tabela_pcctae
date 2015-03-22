@@ -72,9 +72,10 @@ tabelaPcctae
 				$scope.bruto_maior_teto = true;
 			}
 			calcular_previdencia($scope);
-			calcular_funpresp($scope);
+			if($scope.funpresp_input){
+				calcular_funpresp($scope);
+			}
 			calcular_irpf($scope);
-		
 		}
 
 		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + 

@@ -27,6 +27,9 @@ md-list .md-button {
   position: absolute;
   width: 1px;
 }
+.footer-copyright {
+  height: 4rem;
+}
 
 /* Using Data-URI converted from svg until <md-icon> becomes available 
 https://github.com/google/material-design-icons
