@@ -132,6 +132,15 @@
             </div>
           </div>
         </div>
+
+        <div class="col s12" ng-show="bruto_maior_teto">
+          <div class="row">
+            <label class="flow-text">Percentual FUNPRESP:</label>
+            <select name="funpresp_input" ng-change="update()" ng-model="funpresp_input" ng-options="value.key as value.value for value in percentuais_funpresp" reload-select>
+              <option value=''  selected>Opcional</option>
+            </select>
+          </div>
+        </div>
         
         <div class="col s12">
           <h2 class="flow-text">Opções</h2>
@@ -239,8 +248,16 @@
               <td class="red-text">{{aliquota_irpf}}</td>
             </tr>
             <tr>
-              <td>Imposto de Renda</td>
-              <td class="red-text">R$ {{irpf.replace('.', ',')}}</td>
+              <td>Desconto Imposto de Renda</td>
+              <td class="red-text">R$ {{desconto_irpf.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Previdência Complementar</td>
+              <td class="red-text">R$ {{previdencia_complementar.replace('.', ',')}}</td>
+            <tr>
+            <tr>
+              <td>Previdência FUNPRESP</td>
+              <td class="red-text">R$ {{funpresp.replace('.', ',')}}</td>
             </tr>
           </tbody>
         </table>
@@ -266,7 +283,7 @@
     </div>
   </footer>
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="js/materialize.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="js/main.js"></script>

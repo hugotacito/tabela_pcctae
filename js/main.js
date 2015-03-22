@@ -51,28 +51,38 @@ tabelaPcctae
 			$scope.saude_suplementar = $scope.saude_suplementar_input;
 		}
 
-		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + parseFloat($scope.gratificacao_basico) +
-								parseFloat($scope.adicional_insalubridade) + parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
-								parseFloat($scope.outras.replace(',', '.')) + parseFloat($scope.auxilio_transporte.replace(',', '.')) + parseFloat($scope.saude_suplementar.replace(',', '.'));
+		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
+								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + 
+								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
+								parseFloat($scope.outras.replace(',', '.')) + parseFloat($scope.auxilio_transporte.replace(',', '.')) + 
+								parseFloat($scope.saude_suplementar.replace(',', '.'));
 		$scope.salario_bruto = $scope.salario_bruto.toFixed(2);
 
-		if($scope.modelo_novo_previdencia_input && $scope.estrutura){
-			var percentual = 1;
-			var fatores = $scope.everything[$scope.estrutura].inss;
-			console.log(fatores, $scope.salario_bruto);
-			for (index = 0; index < fatores.length; index++) {
-			    if (fatores[index][0] < parseFloat($scope.salario_bruto)){
-			    	percentual = 1 + fatores[index][1];
-			    } else {
-			    	break;
-			    }
-			}
-			console.log(percentual);
-		}
+		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
+							parseFloat($scope.adicional_insalubridade);
+		$scope.base_inss = $scope.base_inss.toFixed(2);
+		$scope.base_funpresp = $scope.base_inss;
 
 		if($scope.previdencia_complementar_input){
-			$scope.previdencia_complementar =  $scope.previdencia_complementar_input;
+			$scope.previdencia_complementar = $scope.previdencia_complementar_input.replace(',', '.');
 		}
+
+		if ($scope.estrutura){
+			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
+				$scope.bruto_maior_teto = true;
+			}
+			calcular_previdencia($scope);
+			calcular_funpresp($scope);
+			calcular_irpf($scope);
+		
+		}
+
+		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + 
+								parseFloat($scope.funpresp) + parseFloat($scope.desconto_irpf);
+		$scope.total_desconto = $scope.total_desconto.toFixed(2);
+
+		$scope.salario_liquido = $scope.salario_bruto - $scope.total_desconto;
+		$scope.salario_liquido = $scope.salario_liquido.toFixed(2);
 	};
 
 	function calcular_vencimento_basico(scope){
@@ -98,8 +108,53 @@ tabelaPcctae
 	};
 
 	function calcular_previdencia(scope){
+		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
+		var percentual_inss = 0;
+		var contador = 0;
+		var inss = scope.everything[scope.estrutura].inss;
 
+		while((contador < inss.length) && (inss[contador][0] < scope.base_inss)) {
+			percentual_inss = inss[contador][1];
+			contador++;
+		}
+
+		scope.aliquota_inss = parseFloat(percentual_inss * 100).toFixed(2);
+		scope.aliquota_inss += '%';
+		if (scope.modelo_novo_previdencia_input && (scope.base_inss >= teto_inss)){
+			scope.desconto_inss = teto_inss * percentual_inss;
+			scope.base_inss = teto_inss.toFixed(2);
+		} else {
+			scope.desconto_inss = scope.base_inss * percentual_inss;
+		}
+		scope.desconto_inss = scope.desconto_inss.toFixed(2);
 	};
+
+	function calcular_irpf(scope){
+		scope.base_irpf = 	parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) - 
+							parseFloat(scope.desconto_inss) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
+		scope.base_irpf = scope.base_irpf.toFixed(2);
+		
+		var contador = 0;
+		var percentual_irpf = 0;
+		var abatimento_irpf = 0;
+		var irpf = scope.everything[scope.estrutura].irpf;
+
+		while((contador < irpf.length) && (irpf[contador][0] < scope.base_irpf)) {
+			percentual_irpf = irpf[contador][1];
+			abatimento_irpf = irpf[contador][2];
+			contador++;
+		}
+		scope.aliquota_irpf = parseFloat(percentual_irpf * 100).toFixed(2);
+		scope.aliquota_irpf += '%';
+		scope.desconto_irpf = (scope.base_irpf * percentual_irpf) - abatimento_irpf;
+		scope.desconto_irpf = parseFloat(scope.desconto_irpf).toFixed(2);
+	};
+
+	function calcular_funpresp(scope){
+		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
+		scope.funpresp = (scope.base_funpresp - teto_inss) * scope.funpresp_input;
+		scope.funpresp = scope.funpresp.toFixed(2);
+	}
 
 	function zerar(scope) {
 	    //Salário
@@ -124,7 +179,9 @@ tabelaPcctae
 	    scope.desconto_inss = '0,00';
 	    scope.base_irpf = '0,00';
 	    scope.aliquota_irpf = '0%';
-    	scope.irpf = '0,00';
+    	scope.desconto_irpf = '0,00';
+    	scope.previdencia_complementar = '0,00';
+    	scope.funpresp = '0,00';
 	}
 	
 	$scope.$on('reloadSelect', function(scope, element, attrs, ngModel){
@@ -146,9 +203,10 @@ tabelaPcctae
 		$scope.menor_vencimento = data["menor_vencimento"];
 		$scope.saude_suplementar_input = data["saude_suplementar"];
 		$scope.saude_suplementar = data["saude_suplementar"];
+		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
 	})
 	.error(function(data, status, headers, config) {
-		console.log(data, status, headers, config);
+		alert('Erro no acesso aos dados!');
 	});
 }]);
