@@ -131,8 +131,9 @@ tabelaPcctae
 	};
 
 	function calcular_irpf(scope){
-		scope.base_irpf = 	parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) - 
-							parseFloat(scope.desconto_inss) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
+		scope.base_irpf = 	parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + 
+							parseFloat(scope.gratificacao_basico) - parseFloat(scope.desconto_inss) - 
+							parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
 		scope.base_irpf = scope.base_irpf.toFixed(2);
 		
 		var contador = 0;
