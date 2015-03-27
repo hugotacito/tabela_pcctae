@@ -1,5 +1,4 @@
 var tabelaPcctae = angular.module('tabela_pcctae', []);
-jQuery('#conteudo').hide();
 function roundup(num){
 	return Math.ceil(num * 100) / 100;
 }
@@ -13,6 +12,7 @@ tabelaPcctae
 	};
 })
 .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
+	$scope.caseData = null;
 	$scope.update = function(){
 		zerar($scope);
 		if ($scope.estrutura){
@@ -189,7 +189,6 @@ tabelaPcctae
 	$scope.$on('reloadSelect', function(scope, element, attrs, ngModel){
 		jQuery('select').material_select();
 		jQuery('.brand-logo').focus().blur();
-		jQuery('#conteudo').show();
 	});
 
 	$http.get('json/properties.json').success(function(data) {
@@ -207,6 +206,7 @@ tabelaPcctae
 		$scope.saude_suplementar = data["saude_suplementar"];
 		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
+    	$scope.caseData = true;
 	})
 	.error(function(data, status, headers, config) {
 		alert('Erro no acesso aos dados!');

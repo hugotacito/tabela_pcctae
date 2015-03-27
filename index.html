@@ -22,7 +22,12 @@
     </div>
   </nav>
   <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller">
-    <div class="row">
+    <div class="row" ng-hide="caseData">
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+    </div>
+    <div class="row" ng-show="caseData">
       <form class="floating-content col s12 m12 l7">
         <div class="col s12">
           <div class="row">
@@ -270,7 +275,7 @@
     <div class="footer-copyright valign-wrapper">
       <div class="container white-text valign">
         © 2015 Tabela PCCTAE, todos os direitos reservados.
-        Feito com <a class="white-text" href="https://angularjs.org/">AngularJS</a> e 
+        Utiliza <a class="white-text" href="https://angularjs.org/">AngularJS</a> e 
         <a class="white-text" href="http://materializecss.com/">Materialize</a>.
         <a class="white-text lighten-4 right" href="LICENSE">MIT License</a>
       </div>
