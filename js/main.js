@@ -12,7 +12,7 @@ tabelaPcctae
 	};
 })
 .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
-	$scope.caseData = null;
+	$scope.loaded = "false";
 	$scope.update = function(){
 		zerar($scope);
 		if ($scope.estrutura){
@@ -206,7 +206,8 @@ tabelaPcctae
 		$scope.saude_suplementar = data["saude_suplementar"];
 		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
-    	$scope.caseData = true;
+    	console.log('eita');
+    	$scope.loaded = "true";
 	})
 	.error(function(data, status, headers, config) {
 		alert('Erro no acesso aos dados!');

@@ -21,13 +21,13 @@
       </div>
     </div>
   </nav>
-  <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller">
-    <div class="row" ng-hide="caseData">
+  <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller" ng-switch on="loaded">
+    <div class="row" ng-switch-when="false">
       <div class="progress">
         <div class="indeterminate"></div>
       </div>
     </div>
-    <div class="row" ng-show="caseData">
+    <div class="row" ng-switch-when="true">
       <form class="floating-content col s12 m12 l7">
         <div class="col s12">
           <div class="row">
