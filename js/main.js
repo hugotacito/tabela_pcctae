@@ -16,7 +16,7 @@ tabelaPcctae
 	};
 })
 .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
-	$scope.loaded = "false";
+	$scope.loaded = null;
 	$scope.update = function(){
 		zerar($scope);
 		console.log($scope.estrutura);
