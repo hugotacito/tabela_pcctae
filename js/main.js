@@ -1,4 +1,8 @@
-var tabelaPcctae = angular.module('tabela_pcctae', []);
+var tabelaPcctae = angular.module('tabela_pcctae', ['angular-loading-bar'])
+  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeBar = false;
+  }]);
+
 function roundup(num){
 	return Math.ceil(num * 100) / 100;
 }
@@ -15,6 +19,7 @@ tabelaPcctae
 	$scope.loaded = "false";
 	$scope.update = function(){
 		zerar($scope);
+		console.log($scope.estrutura);
 		if ($scope.estrutura){
 			$scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao.toFixed(2);
 		};
