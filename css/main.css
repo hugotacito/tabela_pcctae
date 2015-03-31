@@ -48,3 +48,7 @@ td:nth-child(even) {
   left: 0;
   font-size: 1.68rem;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
