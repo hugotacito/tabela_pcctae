@@ -19,7 +19,6 @@ tabelaPcctae
 	$scope.loaded = null;
 	$scope.update = function(){
 		zerar($scope);
-		console.log($scope.estrutura);
 		if ($scope.estrutura){
 			$scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao.toFixed(2);
 		};
