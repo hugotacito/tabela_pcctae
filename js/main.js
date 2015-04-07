@@ -12,7 +12,7 @@ tabelaPcctae
 	return function(scope, element, attrs, ngModel) {
 		$timeout(function() {
 			scope.$emit('reloadSelect', element, attrs, ngModel);
-		});
+		}, 500);
 	};
 })
 .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
@@ -211,8 +211,8 @@ tabelaPcctae
 		$scope.saude_suplementar = data["saude_suplementar"];
 		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
-    	console.log('eita');
     	$scope.loaded = "true";
+    	jQuery('select').material_select();
 	})
 	.error(function(data, status, headers, config) {
 		alert('Erro no acesso aos dados!');
