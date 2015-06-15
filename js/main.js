@@ -60,8 +60,7 @@ tabelaPcctae
 								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
 								parseFloat($scope.outras.replace(',', '.')) + parseFloat($scope.auxilio_transporte.replace(',', '.')) + 
 								parseFloat($scope.saude_suplementar.replace(',', '.'));
-		$scope.salario_bruto = $scope.salario_bruto.toFixed(2);
-
+		
 		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
@@ -80,14 +79,34 @@ tabelaPcctae
 				calcular_funpresp($scope);
 			}
 			calcular_irpf($scope);
+			calcular_ferias($scope);
+			gratificacao_natalina_1($scope);
+			gratificacao_natalina_2($scope);
 		}
 
 		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + 
 								parseFloat($scope.funpresp) + parseFloat($scope.desconto_irpf);
-		$scope.total_desconto = $scope.total_desconto.toFixed(2);
+		
+		if($scope.adicionar_ferias_input){
+			$scope.total_desconto = $scope.total_desconto + parseFloat($scope.desconto_irpf_ferias);
+			$scope.salario_bruto = $scope.salario_bruto + parseFloat($scope.ferias);
+		}
 
+		if($scope.adicionar_primeira_parcela_gratificacao_input){
+			$scope.salario_bruto = $scope.salario_bruto + parseFloat($scope.gratificacao_natalina_1);
+		}
+
+		if($scope.adicionar_segunda_parcela_gratificacao_input){
+			$scope.salario_bruto = $scope.salario_bruto + parseFloat($scope.gratificacao_natalina_2);
+			$scope.total_desconto = $scope.total_desconto + parseFloat($scope.outros_descontos);
+		}
+		
 		$scope.salario_liquido = $scope.salario_bruto - $scope.total_desconto;
+		
+		$scope.salario_bruto = $scope.salario_bruto.toFixed(2);
+		$scope.total_desconto = $scope.total_desconto.toFixed(2);
 		$scope.salario_liquido = $scope.salario_liquido.toFixed(2);
+
 	};
 
 	function calcular_vencimento_basico(scope){
@@ -134,6 +153,40 @@ tabelaPcctae
 		scope.desconto_inss = scope.desconto_inss.toFixed(2);
 	};
 
+	function calcular_ferias(scope){
+		var ferias = (parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao)) / 3;
+		var irpf = scope.everything[scope.estrutura].irpf;
+
+		var contador = 0;
+		var percentual_irpf = 0;
+		var abatimento_irpf = 0;
+		while((contador < irpf.length) && (irpf[contador][0] < ferias)) {
+			percentual_irpf = irpf[contador][1];
+			abatimento_irpf = irpf[contador][2];
+			contador++;
+		}
+
+		scope.desconto_irpf_ferias = (ferias * percentual_irpf) - abatimento_irpf;
+		scope.desconto_irpf_ferias = parseFloat(scope.desconto_irpf_ferias).toFixed(2);
+		scope.ferias = ferias.toFixed(2);
+	}
+
+	function gratificacao_natalina_1(scope){
+		var gratificacao_natalina_1 = (parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao)) / 2;
+		scope.gratificacao_natalina_1 = gratificacao_natalina_1.toFixed(2);
+
+	}
+	
+	function gratificacao_natalina_2(scope){
+		var gratificacao_natalina_2 = (parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao)); 
+ 
+		scope.outros_descontos = parseFloat(scope.desconto_inss) + parseFloat(scope.desconto_irpf) + parseFloat(scope.funpresp) +
+								 parseFloat(scope.gratificacao_natalina_1);
+		scope.gratificacao_natalina_2 = gratificacao_natalina_2.toFixed(2);
+		scope.outros_descontos = scope.outros_descontos.toFixed(2);
+
+	}
+
 	function calcular_irpf(scope){
 		scope.base_irpf = 	parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + 
 							parseFloat(scope.gratificacao_basico) - parseFloat(scope.desconto_inss) - 
@@ -178,6 +231,9 @@ tabelaPcctae
 	    scope.auxilio_transporte = '0,00';
 	    scope.outras = '0,00';
 	    scope.saude_suplementar = '0,00';
+	    scope.ferias = '0,00';
+	    scope.gratificacao_natalina_1 = '0,00';
+	    scope.gratificacao_natalina_2 = '0,00';
 
 	    //Despesas
 	    scope.base_inss = '0,00';
@@ -186,8 +242,10 @@ tabelaPcctae
 	    scope.base_irpf = '0,00';
 	    scope.aliquota_irpf = '0%';
     	scope.desconto_irpf = '0,00';
+    	scope.desconto_irpf_ferias = '0,00';
     	scope.previdencia_complementar = '0,00';
     	scope.funpresp = '0,00';
+    	scope.outros_descontos = '0,00';
 	}
 	
 	$scope.$on('reloadSelect', function(scope, element, attrs, ngModel){

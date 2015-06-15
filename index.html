@@ -156,6 +156,24 @@
               <label for="modelo_novo_previdencia_input">Modelo novo de previdência</label>
             </div>
           </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="adicionar_ferias_input" name="adicionar_ferias_input" type="checkbox" ng-model="adicionar_ferias_input" ng-change="update()" />
+              <label for="adicionar_ferias_input">Inserir Adicional de Férias</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="adicionar_primeira_parcela_gratificacao_input" name="adicionar_primeira_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_primeira_parcela_gratificacao_input" ng-change="update()" />
+              <label for="adicionar_primeira_parcela_gratificacao_input">Inserir Primeira Parcela da Gratificação Natalina</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="adicionar_segunda_parcela_gratificacao_input" name="adicionar_segunda_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_segunda_parcela_gratificacao_input" ng-change="update()" />
+              <label for="adicionar_segunda_parcela_gratificacao_input">Inserir Segunda Parcela da Gratificação Natalina</label>
+            </div>
+          </div>
         </div>
       </form>
 
@@ -225,7 +243,18 @@
               <td>Saúde Suplementar</td>
               <td>R$ {{saude_suplementar.replace('.', ',')}}</td>
             </tr>
-
+            <tr>
+              <td>Primeira Parcela da Gratificação Natalina</td>
+              <td>R$ {{gratificacao_natalina_1.replace('.', ',')}}</td>
+            </tr>
+            <tr>
+              <td>Segunda Parcela da Gratificação Natalina</td>
+              <td>R$ {{gratificacao_natalina_2.replace('.', ',')}}</td>
+            </tr>
+            <tr ng-show="adicionar_ferias_input">
+              <td>Adicional Férias</td>
+              <td>R$ {{ferias.replace('.', ',')}}</td>
+            </tr>
             <tr style="border:none;">
               <td colspan="2">
                 <h6 class="grey-text lighten-1">
@@ -235,11 +264,11 @@
             </tr>
             <tr>
               <td>Base para INSS</td>
-              <td class="red-text">R$ {{base_inss.replace('.', ',')}}</td>
+              <td class="grey-text">R$ {{base_inss.replace('.', ',')}}</td>
             </tr>
             <tr>
               <td>Alíquota INSS</td>
-              <td class="red-text">{{aliquota_inss}}</td>
+              <td class="grey-text">{{aliquota_inss}}</td>
             </tr>
             <tr>
               <td>Desconto INSS</td>
@@ -247,15 +276,19 @@
             </tr>
             <tr>
               <td>Base para Imposto de Renda</td>
-              <td class="red-text">{{base_irpf.replace('.', ',')}}</td>
+              <td class="grey-text">{{base_irpf.replace('.', ',')}}</td>
             </tr>
             <tr>
               <td>Alíquota do Imposto de Renda</td>
-              <td class="red-text">{{aliquota_irpf}}</td>
+              <td class="grey-text">{{aliquota_irpf}}</td>
             </tr>
             <tr>
               <td>Desconto Imposto de Renda</td>
               <td class="red-text">R$ {{desconto_irpf.replace('.', ',')}}</td>
+            </tr>
+            <tr ng-show="adicionar_ferias_input">
+              <td>Desconto Imposto de Renda das Férias</td>
+              <td class="red-text">R$ {{desconto_irpf_ferias.replace('.', ',')}}</td>
             </tr>
             <tr>
               <td>Previdência Complementar</td>
@@ -264,6 +297,10 @@
             <tr ng-show="bruto_maior_teto">
               <td>Previdência FUNPRESP</td>
               <td class="red-text">R$ {{funpresp.replace('.', ',')}}</td>
+            </tr>
+            <tr ng-show="adicionar_segunda_parcela_gratificacao_input">
+              <td>Outros Descontos</td>
+              <td class="red-text">R$ {{outros_descontos.replace('.', ',')}}</td>
             </tr>
           </tbody>
         </table>
