@@ -243,12 +243,12 @@
               <td>Saúde Suplementar</td>
               <td>R$ {{saude_suplementar.replace('.', ',')}}</td>
             </tr>
-            <tr>
-              <td>Primeira Parcela da Gratificação Natalina</td>
+            <tr ng-show="adicionar_primeira_parcela_gratificacao_input">
+              <td>Gratificação Natalina</td>
               <td>R$ {{gratificacao_natalina_1.replace('.', ',')}}</td>
             </tr>
-            <tr>
-              <td>Segunda Parcela da Gratificação Natalina</td>
+            <tr ng-show="adicionar_segunda_parcela_gratificacao_input">
+              <td>Gratificação Natalina</td>
               <td>R$ {{gratificacao_natalina_2.replace('.', ',')}}</td>
             </tr>
             <tr ng-show="adicionar_ferias_input">
