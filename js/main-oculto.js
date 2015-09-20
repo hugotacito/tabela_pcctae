@@ -1,4 +1,4 @@
-var tabelaPcctae = angular.module('tabela_pcctae', ['angular-loading-bar'])
+var tabelaPcctae = angular.module('tabela_pcctae', ['angular-loading-bar', 'ngTouch'])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeBar = false;
   }]);
@@ -17,6 +17,13 @@ tabelaPcctae
 })
 .controller('main-controller', ['$scope', '$http', function ($scope, $http) {
 	$scope.loaded = null;
+	if ($(window).width() < 993) {
+		$scope.showInicio = true;
+		$scope.showResultado = false;
+	} else {
+		$scope.showInicio = true;
+		$scope.showResultado = true;
+	}
 	$scope.update = function(){
 		zerar($scope);
 		if ($scope.estrutura){
@@ -37,6 +44,9 @@ tabelaPcctae
 		
 		if($scope.estrutura && $scope.classe && $scope.nivel && $scope.relacao && $scope.qualificacao) {
 			calcular_gratificacao_qualificacao($scope);
+			if($scope.saude_idade){
+				calcular_saude($scope);
+			};
 		};
 		
 		if($scope.gratificacao && $scope.estrutura) {
@@ -44,22 +54,19 @@ tabelaPcctae
 		};
 
 		if($scope.auxilio_transporte_input){
-			$scope.auxilio_transporte = $scope.auxilio_transporte_input;
+			$scope.auxilio_transporte = $scope.auxilio_transporte_input.toFixed(2);
 		};
 
 		if($scope.outras_input){
-			$scope.outras = $scope.outras_input;
+			$scope.outras = $scope.outras_input.toFixed(2);
 		};
 		
-		if($scope.saude_suplementar_input){
-			$scope.saude_suplementar = $scope.saude_suplementar_input;
-		};
 
 		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + 
 								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
-								parseFloat($scope.outras.replace(',', '.')) + parseFloat($scope.auxilio_transporte.replace(',', '.')) + 
-								parseFloat($scope.saude_suplementar.replace(',', '.'));
+								parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) + 
+								parseFloat($scope.saude_suplementar);
 		
 		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 							parseFloat($scope.adicional_insalubridade);
@@ -67,7 +74,7 @@ tabelaPcctae
 		$scope.base_funpresp = $scope.base_inss;
 
 		if($scope.previdencia_complementar_input){
-			$scope.previdencia_complementar = $scope.previdencia_complementar_input.replace(',', '.');
+			$scope.previdencia_complementar = $scope.previdencia_complementar_input.toFixed(2);
 		};
 
 		if ($scope.estrutura){
@@ -211,6 +218,54 @@ tabelaPcctae
 		scope.funpresp = scope.funpresp.toFixed(2);
 	};
 
+	function calcular_saude(scope){
+		var indice = scope.saude_idades.indexOf(scope.saude_idade);
+		scope.base_irpf = parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + parseFloat(scope.gratificacao_basico) - parseFloat(scope.desconto_inss) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
+		
+		var contador = 0;
+		var percentual_irpf = 0;
+		var abatimento_irpf = 0;
+		var saude = scope.everything[scope.estrutura].saude_valor;
+		while((contador < saude.length) && (saude[contador][0] < scope.base_irpf)) {
+			scope.saude_suplementar = saude[contador][indice+1];
+			contador++;
+		}
+		scope.saude_suplementar = parseFloat(scope.saude_suplementar).toFixed(2);
+	};
+	
+	$scope.indicar = function(valor){
+		var indicator = jQuery('.indicador');
+		if (valor == 0) {
+          indicator.velocity({"right": '50%'}, { duration: 300, queue: false, easing: 'easeOutQuad'});
+          indicator.velocity({"left": '0%'}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
+          jQuery('#abainicio').css('color','#ffffff');
+          jQuery('#abaresultado').css('color','#cccccc');
+        }
+        else {
+          indicator.velocity({"left": '50%'}, { duration: 300, queue: false, easing: 'easeOutQuad'});
+          indicator.velocity({"right": '0%'}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
+          jQuery('#abainicio').css('color','#cccccc');
+          jQuery('#abaresultado').css('color','#ffffff');
+        }
+	};
+
+	$scope.show_resultado = function(value){
+		if ($(window).width() < 993) {
+			if(value == 1){
+				$scope.showInicio = false;
+				$scope.showResultado = true;
+				return;
+			} else {
+				$scope.showInicio = true;
+				$scope.showResultado = false;
+				return;
+			}
+		}
+		$scope.showInicio = true;
+		$scope.showResultado = true;
+		return;
+	}
+
 	function zerar(scope) {
 	    //Salário
 	    scope.salario_bruto = '0,00';
@@ -249,7 +304,7 @@ tabelaPcctae
 		jQuery('.brand-logo').focus().blur();
 	});
 
-	$http.get('json/properties.json').success(function(data) {
+	$http.get('json/properties-ocultado.json').success(function(data) {
 		everything = data
 		$scope.everything = data;
 		$scope.estruturas = data["estruturas"];
@@ -259,8 +314,8 @@ tabelaPcctae
 		$scope.niveis = data["niveis"];
 		$scope.gratificacoes = data["gratificacoes"];
 		$scope.insalubridades = data["insalubridades"];
+		$scope.saude_idades = data["saude_idade"];
 		$scope.menor_vencimento = data["menor_vencimento"];
-		$scope.saude_suplementar_input = data["saude_suplementar"];
 		$scope.saude_suplementar = data["saude_suplementar"];
 		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
@@ -271,3 +326,30 @@ tabelaPcctae
 		alert('Erro no acesso aos dados!');
 	});
 }]);
+
+function fixar_abas(){
+	var menu = $('.abas');
+    var origOffsetY = menu.offset().top;
+    function scroll() {
+
+		if ($(window).width() < 993) {
+			if ($(window).scrollTop() >= origOffsetY) {
+	            $('.abas').addClass('sticky');
+	            $('body').addClass('abas-padding');
+	        } else {
+	            $('.abas').removeClass('sticky');
+	            $('body').removeClass('abas-padding');
+	        }
+		} else {
+	            $('.abas').removeClass('sticky');
+	            $('body').removeClass('abas-padding');
+		}
+
+    }
+
+    document.onscroll = scroll;
+}
+
+$(document).ready(function () {
+	fixar_abas();
+});

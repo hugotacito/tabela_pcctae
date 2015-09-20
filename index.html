@@ -6,10 +6,10 @@
   <!-- CSS  -->
   <link type="text/css" rel="stylesheet" href="bower_components/materialize/bin/materialize.css"  media="screen,projection"/>
   <link type="text/css" rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css" media="screen,projection" />
-  <link type="text/css" rel="stylesheet" href="css/main.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 </head>
-<body>
+<body ng-controller="main-controller">
   <nav class="blue darken-2">
     <div class="container">
       <div class="nav-wrapper">
@@ -18,167 +18,179 @@
         </a>
         <ul id="nav-mobile" class="right side-nav">
           <li><a href="#">Versão Desktop</a></li>
-        </ul><a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        </ul>
       </div>
     </div>
   </nav>
-  <div class="section no-pad-bot" id="conteudo" ng-controller="main-controller">
+  <div class="section no-pad-top" id="conteudo">
+    <div class="col s12 lhide">
+      <ul class="abas">
+        <li class="aba col s3"><a href="#" ng-click="show_resultado(0); indicar(0)" id="abainicio">Início</a></li>
+        <li class="aba col s3"><a href="#" ng-click="show_resultado(1); indicar(1)" id="abaresultado" style="color: #cccccc">Resultado</a></li>
+        <div class="indicador" style="right:50%; left:0%"></div>
+      </ul>
+    </div>
     <div class="row" ng-show="!loaded">
       <div class="progress">
         <div class="indeterminate"></div>
       </div>
     </div>
     <div class="row" ng-cloak>
-      <form class="floating-content col s12 m12 l7">
-        <div class="col s12">
-          <div class="row">
-            <label class="flow-text">Estrutura do Vencimento Básico do PCCTAE:</label>
-            <select name="estrutura" ng-change="update()" ng-model="estrutura" ng-options="value.key as value.value for value in estruturas" reload-select>
-              <option value='' disabled selected>Escolha uma opção</option>
+      <div id="inicio" class="floating-content col s12 m12 l6" ng-show="showInicio" ng-swipe-left="show_resultado(1); indicar(1)">
+        <h5 class="flow-text">Preencha as informações</h5>
+        <form>
+          <div class="col s12">
+            <div class="row">
+              <label class="flow-text">Estrutura de Vencimento Básico do PCCTAE <span class='red-text'>*</span>:</label>
+              <select name="estrutura" ng-change="update()" ng-model="estrutura" ng-options="value.key as value.value for value in estruturas" required="required"reload-select>
+                <option value='' disabled selected>Escolha uma opção</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col s12 m6">
+            <div class="row">
+            <label class="flow-text">Classe <span class='red-text'>*</span>:</label>
+            <select name="classe" ng-change="update()" ng-model="classe" ng-options="value.key as value.value for value in classes" required="required" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
-          </div>
-        </div>
 
-        <div class="col s12 m6">
-          <div class="row">
-          <label class="flow-text">Classe:</label>
-          <select name="classe" ng-change="update()" ng-model="classe" ng-options="value.key as value.value for value in classes" reload-select>
-            <option value=''  disabled selected>Escolha uma opção</option>
-          </select>
-
-          </div>
-        </div>
-
-        <div class="col s12 m6">
-          <div class="row">
-          <label class="flow-text">Nível:</label>
-          <select name="nivel" ng-change="update()" ng-model="nivel" ng-options="value as value for value in niveis" reload-select>
-            <option value=''  disabled selected>Escolha uma opção</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12 m6">
-          <div class="row">
-          <label class="flow-text">Qualificação:</label>
-          <select name="qualificacao" ng-change="update()" ng-model="qualificacao" ng-options="value as value for value in qualificacoes" reload-select>
-            <option value=''>Nível Exigido pelo Cargo</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12 m6">
-          <div class="row">
-          <label class="flow-text">Relação:</label>
-          <select name="relacao" ng-change="update()" ng-model="relacao" ng-options="value.value as value.key for value in relacoes" reload-select>
-            <option value=''  disabled selected>Escolha uma opção</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-          <label class="flow-text">Gratificação:</label>
-          <select name="gratificacao" ng-change="update()" ng-model="gratificacao" ng-options="value as value for value in gratificacoes" reload-select>
-            <option value=''  selected>Escolha uma opção</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-          <label class="flow-text">Adicional Periculosidade/Insalubridade:</label>
-          <select name="insalubridade" ng-change="update()" ng-model="insalubridade" ng-options="value.key as value.value for value in insalubridades" reload-select>
-            <option value='' selected>Escolha uma opção</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-          <label class="flow-text">Auxílio Pré-Escolar:</label>
-          <select name="preescola" ng-change="update()" ng-model="preescola" ng-options="value as value for value in niveis" reload-select>
-            <option value='' selected>Número de dependentes</option>
-          </select>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field">
-              <label>Auxílio Transporte:</label>
-              <input type="text" id="auxilio_transporte_input" name="auxilio_transporte_input" ng-model="auxilio_transporte_input" ng-change="update()">
             </div>
           </div>
-        </div>
 
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field">
-              <label>Outras Gratificações</label>
-              <input id="" type="text" ng-model="outras_input" ng-change="update()">
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field">
-              <label>Saúde Suplementar</label>
-              <input id="" type="text" ng-model="saude_suplementar_input" ng-change="update()">
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field">
-              <label>Previdência Complementar</label>
-              <input id="" type="text" ng-model="previdencia_complementar_input" ng-change="update()">
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12" ng-show="bruto_maior_teto">
-          <div class="row">
-            <label class="flow-text">Percentual FUNPRESP:</label>
-            <select name="funpresp_input" ng-change="update()" ng-model="funpresp_input" ng-options="value.key as value.value for value in percentuais_funpresp" reload-select>
-              <option value=''  selected>Opcional</option>
+          <div class="col s12 m6">
+            <div class="row">
+            <label class="flow-text">Nível <span class='red-text'>*</span>:</label>
+            <select name="nivel" ng-change="update()" ng-model="nivel" ng-options="value as value for value in niveis" required="required" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
             </select>
-          </div>
-        </div>
-        
-        <div class="col s12">
-          <h2 class="flow-text">Opções</h2>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="modelo_novo_previdencia_input" name="modelo_novo_previdencia_input" type="checkbox" ng-model="modelo_novo_previdencia_input" ng-change="update()" />
-              <label for="modelo_novo_previdencia_input">Modelo novo de previdência</label>
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="adicionar_ferias_input" name="adicionar_ferias_input" type="checkbox" ng-model="adicionar_ferias_input" ng-change="update()" />
-              <label for="adicionar_ferias_input">Inserir Adicional de Férias</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="adicionar_primeira_parcela_gratificacao_input" name="adicionar_primeira_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_primeira_parcela_gratificacao_input" ng-change="update()" />
-              <label for="adicionar_primeira_parcela_gratificacao_input">Inserir Primeira Parcela da Gratificação Natalina</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="adicionar_segunda_parcela_gratificacao_input" name="adicionar_segunda_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_segunda_parcela_gratificacao_input" ng-change="update()" />
-              <label for="adicionar_segunda_parcela_gratificacao_input">Inserir Segunda Parcela da Gratificação Natalina</label>
-            </div>
-          </div>
-        </div>
-      </form>
 
-      <div class="floating-content col s12 m12 l4 offset-l1">
-        <h2 class="flow-text">Resultado da Simulação</h2>
+          <div class="col s12 m6">
+            <div class="row">
+            <label class="flow-text">Qualificação:</label>
+            <select name="qualificacao" ng-change="update()" ng-model="qualificacao" ng-options="value as value for value in qualificacoes" reload-select>
+              <option value=''>Nível Exigido pelo Cargo</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col s12 m6">
+            <div class="row">
+            <label class="flow-text">Relação <span class='red-text'>*</span>:</label>
+            <select name="relacao" ng-change="update()" ng-model="relacao" ng-options="value.value as value.key for value in relacoes" required="required" reload-select>
+              <option value=''  disabled selected>Escolha uma opção</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
+            <label class="flow-text">Gratificação por Função:</label>
+            <select name="gratificacao" ng-change="update()" ng-model="gratificacao" ng-options="value as value for value in gratificacoes" reload-select>
+              <option value=''  selected>Escolha uma opção</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
+            <label class="flow-text">Adicional Periculosidade/Insalubridade:</label>
+            <select name="insalubridade" ng-change="update()" ng-model="insalubridade" ng-options="value.key as value.value for value in insalubridades" reload-select>
+              <option value='' selected>Escolha uma opção</option>
+            </select>
+            </div>
+          </div>
+          
+          <div class="col s12">
+            <div class="row">
+              <label class="flow-text">Saúde Suplementar</label>
+              <select name="saude_idade" ng-change="update()" ng-model="saude_idade" ng-options="value as value for value in saude_idades" reload-select>
+                <option value='' selected>Escolha uma faixa-etária</option>
+              </select>
+              <blockquote>
+                Não inclui os dependentes. Preencha em "Outras Gratificações"
+              </blockquote>
+            </div>
+          </div>
+          
+          <div class="col s12">
+            <div class="row">
+            <label class="flow-text">Auxílio Pré-Escolar:</label>
+            <select name="preescola" ng-change="update()" ng-model="preescola" ng-options="value as value for value in niveis" reload-select>
+              <option value='' selected>Número de dependentes</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
+              <div class="input-field">
+                <label class="flow-text">Auxílio Transporte:</label>
+                <input type="number" id="auxilio_transporte_input" name="auxilio_transporte_input" ng-model="auxilio_transporte_input" ng-change="update()">
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
+              <div class="input-field">
+                <label class="flow-text">Outras Gratificações:</label>
+                <input id="" type="number" ng-model="outras_input" ng-change="update()">
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
+              <div class="input-field">
+                <label class="flow-text">Previdência Complementar:</label>
+                <input id="" type="number" ng-model="previdencia_complementar_input" ng-change="update()">
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12" ng-show="bruto_maior_teto">
+            <div class="row">
+              <label class="flow-text">Percentual FUNPRESP:</label>
+              <select name="funpresp_input" ng-change="update()" ng-model="funpresp_input" ng-options="value.key as value.value for value in percentuais_funpresp" reload-select>
+                <option value=''  selected>Opcional</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="col s12">
+            <h5 class="flow-text">Opções</h5>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="modelo_novo_previdencia_input" name="modelo_novo_previdencia_input" type="checkbox" ng-model="modelo_novo_previdencia_input" ng-change="update()" />
+                <label for="modelo_novo_previdencia_input">Modelo novo de previdência</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="adicionar_ferias_input" name="adicionar_ferias_input" type="checkbox" ng-model="adicionar_ferias_input" ng-change="update()" />
+                <label for="adicionar_ferias_input">Inserir Adicional de Férias</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="adicionar_primeira_parcela_gratificacao_input" name="adicionar_primeira_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_primeira_parcela_gratificacao_input" ng-change="update()" />
+                <label for="adicionar_primeira_parcela_gratificacao_input">Inserir Primeira Parcela da Gratificação Natalina</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="adicionar_segunda_parcela_gratificacao_input" name="adicionar_segunda_parcela_gratificacao_input" type="checkbox" ng-model="adicionar_segunda_parcela_gratificacao_input" ng-change="update()" />
+                <label for="adicionar_segunda_parcela_gratificacao_input">Inserir Segunda Parcela da Gratificação Natalina</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="resultado" class="col s12 l6" ng-show="showResultado" ng-swipe-right="show_resultado(0); indicar(0)">
+        <h5 class="flow-text">Resultado da Simulação</h5>
 
         <table>
           <tbody>
@@ -197,7 +209,7 @@
           </tbody>
         </table>
 
-        <h2 class="flow-text">Quadro Resumo</h2>
+        <h5 class="flow-text">Quadro Resumo</h5>
         <table>
           <tbody>
             <tr>
@@ -216,7 +228,7 @@
               <td>R$ {{incentivo_qualificacao.replace('.', ',')}}</td>
             </tr>
             <tr>
-              <td>Gratificação</td>
+              <td>Gratificação por Função</td>
               <td>R$ {{gratificacao_basico.replace('.', ',')}}</td>
             </tr>
             <tr>
@@ -307,16 +319,9 @@
       </div>
     </div>
   </div>
-
-  <footer class="blue darken-3">
-
-    <div class="footer-copyright valign-wrapper">
-      <div class="container white-text valign">
-        © 2015 Tabela PCCTAE, todos os direitos reservados.
-        Utiliza <a class="white-text" href="https://angularjs.org/">AngularJS</a> e 
-        <a class="white-text" href="http://materializecss.com/">Materialize</a>.
-        <a class="white-text lighten-4 right" href="LICENSE">MIT License</a>
-      </div>
+  <footer class="col s12 blue darken-3">
+    <div class="footer-responsibility">
+      * Não somos responsáveis pelo mau uso desta ferramenta.
     </div>
   </footer>
   <!--  Scripts-->
@@ -324,6 +329,7 @@
   <script src="js/materialize.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
-  <script src="js/principal.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.min.js"></script>
+  <script src="js/main-oculto.js"></script>
   </body>
 </html>

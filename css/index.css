@@ -1,0 +1,126 @@
+.menuBtn {
+  background-color: transparent;
+  border: none;
+  height: 38px;
+  margin: 16px;
+  position: absolute;
+  width: 36px;
+} 
+md-toolbar h1 {
+  font-size: 1.250em;
+  font-weight: 400;
+  margin: auto;
+}
+md-list .md-button {
+  color: inherit;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+}
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0; 
+  position: absolute;
+  width: 1px;
+}
+
+nav .brand-logo {
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 0;
+}
+
+.footer-responsibility {
+  overflow: hidden;
+  line-height: 50px;
+  margin: 0 auto;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8); }
+
+@media (min-width: 993px) {
+  .lhide{
+    display: none;
+  }
+}
+
+/* Using Data-URI converted from svg until <md-icon> becomes available 
+https://github.com/google/material-design-icons
+*/
+.menuBtn {
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGcgaWQ9IkhlYWRlciI+CiAgICA8Zz4KICAgICAgICA8cmVjdCB4PSItNjE4IiB5PSItMjIzMiIgZmlsbD0ibm9uZSIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMzYwMCIvPgogICAgPC9nPgo8L2c+CjxnIGlkPSJMYWJlbCI+CjwvZz4KPGcgaWQ9Ikljb24iPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0ibm9uZSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CiAgICAgICAgPHBhdGggZD0iTTMsMThoMTh2LTJIM1YxOHogTTMsMTNoMTh2LTJIM1YxM3ogTTMsNnYyaDE4VjZIM3oiIHN0eWxlPSJmaWxsOiNmM2YzZjM7Ii8+CiAgICA8L2c+CjwvZz4KPGcgaWQ9IkdyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgPGcgZGlzcGxheT0iaW5saW5lIj4KICAgIDwvZz4KPC9nPgo8L3N2Zz4=) no-repeat  center center;
+}
+
+td:nth-child(even) {
+  text-align: right;
+}
+
+.input-field label {
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 1.68rem;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+/*
+Ajeitando as abas
+*/
+.abas {
+  position: relative;
+  height: 48px;
+  background-color: #FFF;
+  margin: 0 auto;
+  width: 100%;
+  z-index: 2;
+  white-space: nowrap; 
+  box-shadow: 0 9px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 18px 0 rgba(0, 0, 0, 0.19); }
+  .abas li.aba {
+    display: block;
+    float: left;
+    text-align: center;
+    background-color: #1976D2 !important;
+    line-height: 48px;
+    height: 48px;
+    padding: 0 20px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    width: 50%; }
+    .abas li.aba a {
+      color: #ffffff;
+      display: block;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: color 0.28s ease;
+      -moz-transition: color 0.28s ease;
+      -o-transition: color 0.28s ease;
+      -ms-transition: color 0.28s ease;
+      transition: color 0.28s ease; }
+      .abas li.aba a:hover {
+        color: #ffffff; }
+  .abas .indicador {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #ffffff;
+    will-change: left, right; }
+
+ul.abas li.aba {
+  padding: 0; }
+
+.sticky {
+  position:fixed;
+  top:0;
+}
+
+.abas-padding {
+    padding-top: 48px;
+}
