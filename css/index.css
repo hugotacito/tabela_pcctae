@@ -48,6 +48,12 @@ nav .brand-logo {
   }
 }
 
+@media (max-width: 993px) {
+  .hhide{
+    display: none;
+  }
+}
+
 /* Using Data-URI converted from svg until <md-icon> becomes available 
 https://github.com/google/material-design-icons
 */
@@ -119,6 +125,9 @@ ul.abas li.aba {
 .sticky {
   position:fixed;
   top:0;
+}
+.tiny-font {
+  font-size: 9pt;
 }
 
 .abas-padding {
