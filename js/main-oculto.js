@@ -304,7 +304,7 @@ tabelaPcctae
 		jQuery('.brand-logo').focus().blur();
 	});
 
-	$http.get('json/properties-ocultado.json').success(function(data) {
+	$http.get('json/properties.json').success(function(data) {
 		everything = data
 		$scope.everything = data;
 		$scope.estruturas = data["estruturas"];
