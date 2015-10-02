@@ -157,13 +157,13 @@ tabelaPcctae
 		};
 		
 
-		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + \
-								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + \
-								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + \
-								parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) + \
+		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
+								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + 
+								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
+								parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) + 
 								parseFloat($scope.saude_suplementar);
 		
-		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + \
+		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
 		$scope.base_funpresp = $scope.base_inss;
