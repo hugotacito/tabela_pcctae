@@ -23,7 +23,7 @@ tabelaPcctae
 	} else {
 		$scope.showInicio = true;
 		$scope.showResultado = true;
-	}
+	};
 	$scope.save = function() {
 		$localStorage.estrutura = this.estrutura;
 		$localStorage.classe = this.classe;
@@ -42,62 +42,62 @@ tabelaPcctae
 		$localStorage.adicionar_ferias_input = this.adicionar_ferias_input;
 		$localStorage.adicionar_primeira_parcela_gratificacao_input = this.adicionar_primeira_parcela_gratificacao_input;
 		$localStorage.adicionar_segunda_parcela_gratificacao_input = this.adicionar_segunda_parcela_gratificacao_input;
-    }
+    };
 
     $scope.load = function() {
 
     	if($localStorage.estrutura){
     		this.estrutura = $localStorage.estrutura;
-    	}
+    	};
     	if($localStorage.classe){
     		this.classe = $localStorage.classe;
-    	}
+    	};
     	if($localStorage.nivel){
     		this.nivel = $localStorage.nivel;
-    	}
+    	};
     	if($localStorage.qualificacao){
     		this.qualificacao = $localStorage.qualificacao;
-    	}
+    	};
     	if($localStorage.relacao){
     		this.relacao = $localStorage.relacao;
-    	}
+    	};
     	if($localStorage.gratificacao){
     		this.gratificacao = $localStorage.gratificacao;
-    	}
+    	};
     	if($localStorage.insalubridade){
     		this.insalubridade = $localStorage.insalubridade;
-    	}
+    	};
     	if($localStorage.saude_idade){
     		this.saude_idade = $localStorage.saude_idade;
-    	}
+    	};
     	if($localStorage.preescola){
     		this.preescola = $localStorage.preescola;
-    	}
+    	};
     	if($localStorage.auxilio_transporte_input){
     		this.auxilio_transporte_input = $localStorage.auxilio_transporte_input;
-    	}
+    	};
     	if($localStorage.outras_input){
     		this.outras_input = $localStorage.outras_input;
-    	}
+    	};
     	if($localStorage.previdencia_complementar_input){
     		this.previdencia_complementar_input = $localStorage.previdencia_complementar_input;
-    	}
+    	};
     	if($localStorage.funpresp_input){
     		this.funpresp_input = $localStorage.funpresp_input;
-    	}
+    	};
     	if($localStorage.modelo_novo_previdencia_input){
     		this.modelo_novo_previdencia_input = $localStorage.modelo_novo_previdencia_input;
-    	}
+    	};
     	if($localStorage.adicionar_ferias_input){
     		this.adicionar_ferias_input = $localStorage.adicionar_ferias_input;
-    	}
+    	};
     	if($localStorage.adicionar_primeira_parcela_gratificacao_input){
     		this.adicionar_primeira_parcela_gratificacao_input = $localStorage.adicionar_primeira_parcela_gratificacao_input;
-    	}
+    	};
     	if($localStorage.adicionar_segunda_parcela_gratificacao_input){
     		this.adicionar_segunda_parcela_gratificacao_input = $localStorage.adicionar_segunda_parcela_gratificacao_input;
-    	}
-    }
+    	};
+    };
 
     $scope.delete = function() {
     	delete $localStorage.estrutura;
@@ -118,7 +118,7 @@ tabelaPcctae
 		delete $localStorage.adicionar_primeira_parcela_gratificacao_input;
 		delete $localStorage.adicionar_segunda_parcela_gratificacao_input;
     	window.location.reload();
-	}
+	};
 
 	$scope.update = function(){
 		if ($scope.estrutura){
@@ -157,13 +157,13 @@ tabelaPcctae
 		};
 		
 
-		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
-								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + 
-								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
-								parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) + 
+		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + \
+								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + \
+								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + \
+								parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) + \
 								parseFloat($scope.saude_suplementar);
 		
-		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
+		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + \
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
 		$scope.base_funpresp = $scope.base_inss;
@@ -175,11 +175,11 @@ tabelaPcctae
 		if ($scope.estrutura){
 			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
 				$scope.bruto_maior_teto = true;
-			}
+			};
 			calcular_previdencia($scope);
 			if($scope.funpresp_input){
 				calcular_funpresp($scope);
-			}
+			};
 			calcular_irpf($scope);
 			calcular_ferias($scope);
 			gratificacao_natalina_1($scope);
@@ -241,7 +241,7 @@ tabelaPcctae
 		while((contador < inss.length) && (inss[contador][0] < scope.base_inss)) {
 			percentual_inss = inss[contador][1];
 			contador++;
-		}
+		};
 
 		scope.aliquota_inss = parseFloat(percentual_inss * 100).toFixed(2);
 		scope.aliquota_inss += '%';
@@ -250,7 +250,7 @@ tabelaPcctae
 			scope.base_inss = teto_inss.toFixed(2);
 		} else {
 			scope.desconto_inss = scope.base_inss * percentual_inss;
-		}
+		};
 		scope.desconto_inss = scope.desconto_inss.toFixed(2);
 	};
 
@@ -265,7 +265,7 @@ tabelaPcctae
 			percentual_irpf = irpf[contador][1];
 			abatimento_irpf = irpf[contador][2];
 			contador++;
-		}
+		};
 
 		scope.desconto_irpf_ferias = (ferias * percentual_irpf) - abatimento_irpf;
 		scope.desconto_irpf_ferias = parseFloat(scope.desconto_irpf_ferias).toFixed(2);
@@ -300,7 +300,7 @@ tabelaPcctae
 			percentual_irpf = irpf[contador][1];
 			abatimento_irpf = irpf[contador][2];
 			contador++;
-		}
+		};
 		scope.aliquota_irpf = parseFloat(percentual_irpf * 100).toFixed(2);
 		scope.aliquota_irpf += '%';
 		scope.desconto_irpf = (scope.base_irpf * percentual_irpf) - abatimento_irpf;
@@ -324,7 +324,7 @@ tabelaPcctae
 		while((contador < saude.length) && (saude[contador][0] < scope.base_irpf)) {
 			scope.saude_suplementar = saude[contador][indice+1];
 			contador++;
-		}
+		};
 		scope.saude_suplementar = parseFloat(scope.saude_suplementar).toFixed(2);
 	};
 	
@@ -335,13 +335,12 @@ tabelaPcctae
           indicator.velocity({"left": '0%'}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
           jQuery('#abainicio').css('color','#ffffff');
           jQuery('#abaresultado').css('color','#cccccc');
-        }
-        else {
+        } else {
           indicator.velocity({"left": '50%'}, { duration: 300, queue: false, easing: 'easeOutQuad'});
           indicator.velocity({"right": '0%'}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
           jQuery('#abainicio').css('color','#cccccc');
           jQuery('#abaresultado').css('color','#ffffff');
-        }
+        };
 	};
 
 	$scope.show_resultado = function(value){
@@ -354,12 +353,12 @@ tabelaPcctae
 				$scope.showInicio = true;
 				$scope.showResultado = false;
 				return;
-			}
-		}
+			};
+		};
 		$scope.showInicio = true;
 		$scope.showResultado = true;
 		return;
-	}
+	};
 
 	function zerar(scope) {
 	    //Salário
@@ -400,7 +399,7 @@ tabelaPcctae
 		jQuery('.brand-logo').focus().blur();
 	});
 
-	$http.get('json/properties-oculto.json').success(function(data) {
+	$http.get('json/propriedades.json').success(function(data) {
 		everything = data;
 		$scope.everything = data;
 		$scope.load();
@@ -438,16 +437,16 @@ function fixar_abas(){
 	        } else {
 	            $('.abas').removeClass('sticky');
 	            $('body').removeClass('abas-padding');
-	        }
+	        };
 		} else {
 	            $('.abas').removeClass('sticky');
 	            $('body').removeClass('abas-padding');
-		}
+		};
 
-    }
+    };
 
     document.onscroll = scroll;
-}
+};
 
 $(document).ready(function () {
 	fixar_abas();
