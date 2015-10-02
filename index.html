@@ -43,7 +43,7 @@
             <div class="row">
               <label class="flow-text">Estrutura de Vencimento Básico do PCCTAE <span class='red-text'>*</span>:</label>
               <select name="estrutura" ng-change="update()" ng-model="estrutura" ng-options="value.key as value.value for value in estruturas" required="required"reload-select>
-                <option value='' disabled selected>Escolha uma opção</option>
+                <option value='' disabled>Escolha uma opção</option>
               </select>
             </div>
           </div>
@@ -79,7 +79,7 @@
           <div class="col s12 m6">
             <div class="row">
             <label class="flow-text">Relação <span class='red-text'>*</span>:</label>
-            <select name="relacao" ng-change="update()" ng-model="relacao" ng-options="value.value as value.key for value in relacoes" required="required" reload-select>
+            <select name="relacao" ng-change="update()" ng-model="relacao" ng-options="value as value for value in tipos_relacoes" required="required" reload-select>
               <option value=''  disabled selected>Escolha uma opção</option>
             </select>
             </div>
@@ -321,14 +321,16 @@
   </div>
   <footer class="col s12 blue darken-3">
     <div class="footer-responsibility tiny-font lhide">
-      * Não somos responsáveis pelo mau uso desta ferramenta.
+      * Não somos responsáveis pelo mau uso desta ferramenta.<br />
+      <a class="white-text lighten-4 center" href="#" ng-click="delete(); ">Limpar Formulário</a>
     </div>
-    <div class="footer-responsibility container white-text valign hhide">
-      © 2015 Tabela PCCTAE, todos os direitos reservados.
-      Utiliza <a class="white-text" href="https://angularjs.org/">AngularJS</a> e 
-      <a class="white-text" href="http://materializecss.com/">Materialize</a>.
-      <a class="white-text lighten-4 right" href="LICENSE">MIT License</a>
+    <div class="footer-responsibility container valign hhide">
+      © 2015 Hugo Tácito Web-Services.
+      <a class="white-text lighten-4 right" href="LICENSE">MIT License</a><br />
+      <a class="white-text lighten-4 center" href="#" ng-click="delete(); ">Limpar Formulário</a>
     </div>
+
+      
   </footer>
   <!--  Scripts-->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -336,6 +338,17 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
   <script src="bower_components/angular-touch/angular-touch.min.js"></script>
-  <script src="js/principal.js"></script>
+  <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+  <script src="js/main-oculto.js"></script>
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-68397814-1', 'auto');
+    ga('send', 'pageview');
+  </script>
   </body>
 </html>

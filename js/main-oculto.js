@@ -1,4 +1,4 @@
-var tabelaPcctae = angular.module('tabela_pcctae', ['angular-loading-bar', 'ngTouch'])
+var tabelaPcctae = angular.module('tabela_pcctae', ['angular-loading-bar', 'ngTouch', 'ngStorage'])
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeBar = false;
   }]);
@@ -15,7 +15,7 @@ tabelaPcctae
 		}, 500);
 	};
 })
-.controller('main-controller', ['$scope', '$http', function ($scope, $http) {
+.controller('main-controller', ['$scope', '$http', '$localStorage', function ($scope, $http, $localStorage) {
 	$scope.loaded = null;
 	if ($(window).width() < 993) {
 		$scope.showInicio = true;
@@ -24,8 +24,103 @@ tabelaPcctae
 		$scope.showInicio = true;
 		$scope.showResultado = true;
 	}
+	$scope.save = function() {
+		$localStorage.estrutura = this.estrutura;
+		$localStorage.classe = this.classe;
+		$localStorage.nivel = this.nivel;
+		$localStorage.qualificacao = this.qualificacao;
+		$localStorage.relacao = this.relacao;
+		$localStorage.gratificacao = this.gratificacao;
+		$localStorage.insalubridade = this.insalubridade;
+		$localStorage.saude_idade = this.saude_idade;
+		$localStorage.preescola = this.preescola;
+		$localStorage.auxilio_transporte_input = this.auxilio_transporte_input;
+		$localStorage.outras_input = this.outras_input;
+		$localStorage.previdencia_complementar_input = this.previdencia_complementar_input;
+		$localStorage.funpresp_input = this.funpresp_input;
+		$localStorage.modelo_novo_previdencia_input = this.modelo_novo_previdencia_input;
+		$localStorage.adicionar_ferias_input = this.adicionar_ferias_input;
+		$localStorage.adicionar_primeira_parcela_gratificacao_input = this.adicionar_primeira_parcela_gratificacao_input;
+		$localStorage.adicionar_segunda_parcela_gratificacao_input = this.adicionar_segunda_parcela_gratificacao_input;
+    }
+
+    $scope.load = function() {
+
+    	if($localStorage.estrutura){
+    		this.estrutura = $localStorage.estrutura;
+    	}
+    	if($localStorage.classe){
+    		this.classe = $localStorage.classe;
+    	}
+    	if($localStorage.nivel){
+    		this.nivel = $localStorage.nivel;
+    	}
+    	if($localStorage.qualificacao){
+    		this.qualificacao = $localStorage.qualificacao;
+    	}
+    	if($localStorage.relacao){
+    		this.relacao = $localStorage.relacao;
+    	}
+    	if($localStorage.gratificacao){
+    		this.gratificacao = $localStorage.gratificacao;
+    	}
+    	if($localStorage.insalubridade){
+    		this.insalubridade = $localStorage.insalubridade;
+    	}
+    	if($localStorage.saude_idade){
+    		this.saude_idade = $localStorage.saude_idade;
+    	}
+    	if($localStorage.preescola){
+    		this.preescola = $localStorage.preescola;
+    	}
+    	if($localStorage.auxilio_transporte_input){
+    		this.auxilio_transporte_input = $localStorage.auxilio_transporte_input;
+    	}
+    	if($localStorage.outras_input){
+    		this.outras_input = $localStorage.outras_input;
+    	}
+    	if($localStorage.previdencia_complementar_input){
+    		this.previdencia_complementar_input = $localStorage.previdencia_complementar_input;
+    	}
+    	if($localStorage.funpresp_input){
+    		this.funpresp_input = $localStorage.funpresp_input;
+    	}
+    	if($localStorage.modelo_novo_previdencia_input){
+    		this.modelo_novo_previdencia_input = $localStorage.modelo_novo_previdencia_input;
+    	}
+    	if($localStorage.adicionar_ferias_input){
+    		this.adicionar_ferias_input = $localStorage.adicionar_ferias_input;
+    	}
+    	if($localStorage.adicionar_primeira_parcela_gratificacao_input){
+    		this.adicionar_primeira_parcela_gratificacao_input = $localStorage.adicionar_primeira_parcela_gratificacao_input;
+    	}
+    	if($localStorage.adicionar_segunda_parcela_gratificacao_input){
+    		this.adicionar_segunda_parcela_gratificacao_input = $localStorage.adicionar_segunda_parcela_gratificacao_input;
+    	}
+    }
+
+    $scope.delete = function() {
+    	delete $localStorage.estrutura;
+    	delete $localStorage.classe;
+		delete $localStorage.nivel;
+		delete $localStorage.qualificacao;
+		delete $localStorage.relacao;
+		delete $localStorage.gratificacao;
+		delete $localStorage.insalubridade;
+		delete $localStorage.saude_idade;
+		delete $localStorage.preescola;
+		delete $localStorage.auxilio_transporte_input;
+		delete $localStorage.outras_input;
+		delete $localStorage.previdencia_complementar_input;
+		delete $localStorage.funpresp_input;
+		delete $localStorage.modelo_novo_previdencia_input;
+		delete $localStorage.adicionar_ferias_input;
+		delete $localStorage.adicionar_primeira_parcela_gratificacao_input;
+		delete $localStorage.adicionar_segunda_parcela_gratificacao_input;
+    	window.location.reload();
+	}
+
 	$scope.update = function(){
-		zerar($scope);
 		if ($scope.estrutura){
 			$scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao.toFixed(2);
 		};
@@ -112,7 +207,7 @@ tabelaPcctae
 		$scope.salario_bruto = $scope.salario_bruto.toFixed(2);
 		$scope.total_desconto = $scope.total_desconto.toFixed(2);
 		$scope.salario_liquido = $scope.salario_liquido.toFixed(2);
-
+		$scope.save();
 	};
 
 	function calcular_vencimento_basico(scope){
@@ -128,7 +223,7 @@ tabelaPcctae
 
 	function calcular_gratificacao_qualificacao(scope){
 		var indice = scope.qualificacoes.indexOf(scope.qualificacao);
-		scope.percentuais_relacao = scope.relacao[indice];
+		scope.percentuais_relacao = scope.relacoes[scope.relacao][indice];
 		scope.incentivo_qualificacao = (scope.vencimento_basico * scope.percentuais_relacao).toFixed(2);
 	};
 
@@ -268,12 +363,13 @@ tabelaPcctae
 
 	function zerar(scope) {
 	    //Salário
+	    scope.load();
 	    scope.salario_bruto = '0,00';
 	    scope.total_desconto = '0,00';
 	    scope.salario_liquido = '0,00';
 
 	    //Receitas
-	    scope.vencimento_basico = '0,00';
+	    scope.vencimento_basico = scope.vencimento_basico ? scope.vencimento_basico : '0,00';
 	    scope.incentivo_qualificacao = '0,00';
 	    scope.gratificacao_basico = '0,00';
 	    scope.adicional_insalubridade = '0,00';
@@ -297,18 +393,20 @@ tabelaPcctae
     	scope.previdencia_complementar = '0,00';
     	scope.funpresp = '0,00';
     	scope.outros_descontos = '0,00';
+
 	};
-	
 	$scope.$on('reloadSelect', function(scope, element, attrs, ngModel){
 		jQuery('select').material_select();
 		jQuery('.brand-logo').focus().blur();
 	});
 
-	$http.get('json/properties.json').success(function(data) {
-		everything = data
+	$http.get('json/properties-oculto.json').success(function(data) {
+		everything = data;
 		$scope.everything = data;
+		$scope.load();
 		$scope.estruturas = data["estruturas"];
 		$scope.qualificacoes = data["qualificacoes"];
+		$scope.tipos_relacoes = data["tipos_relacoes"];
 		$scope.relacoes = data["relacoes"];
 		$scope.classes = data["classes"];
 		$scope.niveis = data["niveis"];
@@ -319,6 +417,7 @@ tabelaPcctae
 		$scope.saude_suplementar = data["saude_suplementar"];
 		$scope.percentuais_funpresp = data["percentuais_funpresp"];
     	zerar($scope);
+    	$scope.update();
     	$scope.loaded = "true";
     	jQuery('select').material_select();
 	})
