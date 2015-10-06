@@ -139,9 +139,6 @@ tabelaPcctae
 		
 		if($scope.estrutura && $scope.classe && $scope.nivel && $scope.relacao && $scope.qualificacao) {
 			calcular_gratificacao_qualificacao($scope);
-			if($scope.saude_idade){
-				calcular_saude($scope);
-			};
 		};
 		
 		if($scope.gratificacao && $scope.estrutura) {
@@ -184,6 +181,9 @@ tabelaPcctae
 			calcular_ferias($scope);
 			gratificacao_natalina_1($scope);
 			gratificacao_natalina_2($scope);
+			if($scope.saude_idade){
+				calcular_saude($scope);
+			};
 		};
 
 		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + parseFloat($scope.funpresp) + parseFloat($scope.desconto_irpf);
@@ -234,11 +234,14 @@ tabelaPcctae
 
 	function calcular_previdencia(scope){
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
-		var percentual_inss = 0;
-		var contador = 0;
 		var inss = scope.everything[scope.estrutura].inss;
-
-		while((contador < inss.length) && (inss[contador][0] < scope.base_inss)) {
+		
+		var percentual_inss = inss[0][1];
+		var contador = 0;
+		if(!scope.modelo_novo_previdencia_input){
+			percentual_inss = 0.11;
+		}
+		while((contador < inss.length) && (inss[contador][0] < scope.base_inss) && scope.modelo_novo_previdencia_input) {
 			percentual_inss = inss[contador][1];
 			contador++;
 		};
@@ -259,8 +262,8 @@ tabelaPcctae
 		var irpf = scope.everything[scope.estrutura].irpf;
 
 		var contador = 0;
-		var percentual_irpf = 0;
-		var abatimento_irpf = 0;
+		var percentual_irpf = irpf[0][1];
+		var abatimento_irpf = irpf[0][2];
 		while((contador < irpf.length) && (irpf[contador][0] < ferias)) {
 			percentual_irpf = irpf[contador][1];
 			abatimento_irpf = irpf[contador][2];
@@ -290,11 +293,11 @@ tabelaPcctae
 	function calcular_irpf(scope){
 		scope.base_irpf = parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + parseFloat(scope.gratificacao_basico) - parseFloat(scope.desconto_inss) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
 		scope.base_irpf = scope.base_irpf.toFixed(2);
+		var irpf = scope.everything[scope.estrutura].irpf;
 		
 		var contador = 0;
-		var percentual_irpf = 0;
-		var abatimento_irpf = 0;
-		var irpf = scope.everything[scope.estrutura].irpf;
+		var percentual_irpf = irpf[0][1];
+		var abatimento_irpf = irpf[0][2];
 
 		while((contador < irpf.length) && (irpf[contador][0] < scope.base_irpf)) {
 			percentual_irpf = irpf[contador][1];
@@ -309,21 +312,20 @@ tabelaPcctae
 
 	function calcular_funpresp(scope){
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
+		if(!scope.bruto_maior_teto)
+			return '0,00';
 		scope.funpresp = (scope.base_funpresp - teto_inss) * scope.funpresp_input;
 		scope.funpresp = scope.funpresp.toFixed(2);
 	};
 
 	function calcular_saude(scope){
 		var indice = scope.saude_idades.indexOf(scope.saude_idade);
-		scope.base_irpf = parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + parseFloat(scope.gratificacao_basico) - parseFloat(scope.desconto_inss) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
-		
 		var contador = 0;
-		var percentual_irpf = 0;
-		var abatimento_irpf = 0;
 		var saude = scope.everything[scope.estrutura].saude_valor;
-		while((contador < saude.length) && (saude[contador][0] < scope.base_irpf)) {
-			scope.saude_suplementar = saude[contador][indice+1];
-			contador++;
+		var base_saude = parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao) + parseFloat(scope.gratificacao_basico) - parseFloat(scope.previdencia_complementar) - parseFloat(scope.funpresp);
+		while((contador < saude.length) && (saude[contador][0] < base_saude)) {
+		    	scope.saude_suplementar = saude[contador][indice+1];
+		    	contador++;
 		};
 		scope.saude_suplementar = parseFloat(scope.saude_suplementar).toFixed(2);
 	};
