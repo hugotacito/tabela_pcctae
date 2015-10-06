@@ -334,7 +334,6 @@ tabelaPcctae
 
 	function calcular_funpresp(scope){
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
-		console.log(scope.funpresp_input);
 		if(!scope.bruto_maior_teto || !scope.funpresp_input) {
 			$scope.funpresp = '0,00';
 			return;
