@@ -176,7 +176,7 @@ tabelaPcctae
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
 		$scope.base_funpresp = $scope.base_inss;
-		
+
 		if ($scope.estrutura){
 			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
 				$scope.bruto_maior_teto = true;
@@ -184,9 +184,7 @@ tabelaPcctae
 				$scope.bruto_maior_teto = false;
 			};
 			calcular_previdencia($scope);
-			if($scope.funpresp_input){
-				calcular_funpresp($scope);
-			};
+			calcular_funpresp($scope);
 			calcular_irpf($scope);
 			calcular_ferias($scope);
 			gratificacao_natalina_1($scope);
@@ -336,7 +334,8 @@ tabelaPcctae
 
 	function calcular_funpresp(scope){
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
-		if(!scope.bruto_maior_teto) {
+		console.log(scope.funpresp_input);
+		if(!scope.bruto_maior_teto || !scope.funpresp_input) {
 			$scope.funpresp = '0,00';
 			return;
 		};
