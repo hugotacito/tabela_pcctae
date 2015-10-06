@@ -36,6 +36,7 @@ tabelaPcctae
 		$localStorage.preescola = this.preescola;
 		$localStorage.auxilio_transporte_input = this.auxilio_transporte_input;
 		$localStorage.outras_input = this.outras_input;
+		$localStorage.descontos_input = this.descontos_input;
 		$localStorage.previdencia_complementar_input = this.previdencia_complementar_input;
 		$localStorage.funpresp_input = this.funpresp_input;
 		$localStorage.modelo_novo_previdencia_input = this.modelo_novo_previdencia_input;
@@ -79,6 +80,9 @@ tabelaPcctae
     	if($localStorage.outras_input){
     		this.outras_input = $localStorage.outras_input;
     	};
+    	if($localStorage.descontos_input){
+    		this.descontos_input = $localStorage.descontos_input;
+    	};
     	if($localStorage.previdencia_complementar_input){
     		this.previdencia_complementar_input = $localStorage.previdencia_complementar_input;
     	};
@@ -111,6 +115,7 @@ tabelaPcctae
 		delete $localStorage.preescola;
 		delete $localStorage.auxilio_transporte_input;
 		delete $localStorage.outras_input;
+		delete $localStorage.descontos_input;
 		delete $localStorage.previdencia_complementar_input;
 		delete $localStorage.funpresp_input;
 		delete $localStorage.modelo_novo_previdencia_input;
@@ -123,37 +128,44 @@ tabelaPcctae
 	$scope.update = function(){
 		if ($scope.estrutura){
 			$scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao.toFixed(2);
-		};
-		
-		if($scope.estrutura && $scope.preescola){
-			$scope.auxilio_preescola = ($scope.everything[$scope.estrutura]["auxilio_preescola"] * $scope.preescola).toFixed(2);  
+			calcular_gratificacao_funcao($scope);
+			calcular_auxilio_preescola($scope);
 		};
 
 		if($scope.estrutura && $scope.classe && $scope.nivel) {
 			calcular_vencimento_basico($scope);
-		};
-
-		if($scope.estrutura && $scope.classe && $scope.nivel && $scope.insalubridade) {
 			calcular_insalubridade($scope);
 		};
 		
 		if($scope.estrutura && $scope.classe && $scope.nivel && $scope.relacao && $scope.qualificacao) {
 			calcular_gratificacao_qualificacao($scope);
-		};
-		
-		if($scope.gratificacao && $scope.estrutura) {
-			calcular_gratificacao_funcao($scope);
+			calcular_saude($scope);
 		};
 
 		if($scope.auxilio_transporte_input){
 			$scope.auxilio_transporte = $scope.auxilio_transporte_input.toFixed(2);
+		} else {
+			$scope.auxilio_transporte = '0,00';
 		};
 
 		if($scope.outras_input){
 			$scope.outras = $scope.outras_input.toFixed(2);
+		} else {
+			$scope.outras = '0,00';
+		};
+
+		if($scope.descontos_input){
+			$scope.outros_descontos = $scope.descontos_input.toFixed(2);
+		} else {
+			$scope.outros_descontos = '0,00';
+		};
+
+		if($scope.previdencia_complementar_input){
+			$scope.previdencia_complementar = $scope.previdencia_complementar_input.toFixed(2);
+		} else {
+			$scope.previdencia_complementar = '0,00';
 		};
 		
-
 		$scope.salario_bruto = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 								parseFloat($scope.gratificacao_basico) + parseFloat($scope.adicional_insalubridade) + 
 								parseFloat($scope.auxilio_preescola) + parseFloat($scope.auxilio_alimentacao) + 
@@ -163,11 +175,6 @@ tabelaPcctae
 		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
-		$scope.base_funpresp = $scope.base_inss;
-
-		if($scope.previdencia_complementar_input){
-			$scope.previdencia_complementar = $scope.previdencia_complementar_input.toFixed(2);
-		};
 
 		if ($scope.estrutura){
 			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
@@ -181,12 +188,10 @@ tabelaPcctae
 			calcular_ferias($scope);
 			gratificacao_natalina_1($scope);
 			gratificacao_natalina_2($scope);
-			if($scope.saude_idade){
-				calcular_saude($scope);
-			};
+
 		};
 
-		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + parseFloat($scope.funpresp) + parseFloat($scope.desconto_irpf);
+		$scope.total_desconto = parseFloat($scope.desconto_inss) + parseFloat($scope.previdencia_complementar) + parseFloat($scope.funpresp) + parseFloat($scope.desconto_irpf) + parseFloat($scope.outros_descontos);
 		
 		if($scope.adicionar_ferias_input){
 			$scope.total_desconto = $scope.total_desconto + parseFloat($scope.desconto_irpf_ferias);
@@ -199,7 +204,7 @@ tabelaPcctae
 
 		if($scope.adicionar_segunda_parcela_gratificacao_input){
 			$scope.salario_bruto = $scope.salario_bruto + parseFloat($scope.gratificacao_natalina_2);
-			$scope.total_desconto = $scope.total_desconto + parseFloat($scope.outros_descontos);
+			$scope.total_desconto = $scope.total_desconto + parseFloat($scope.desconto_natalino);
 		};
 		
 		$scope.salario_liquido = $scope.salario_bruto - $scope.total_desconto;
@@ -208,6 +213,14 @@ tabelaPcctae
 		$scope.total_desconto = $scope.total_desconto.toFixed(2);
 		$scope.salario_liquido = $scope.salario_liquido.toFixed(2);
 		$scope.save();
+	};
+	
+	function calcular_auxilio_preescola(scope){
+		if($scope.preescola){
+			$scope.auxilio_preescola = ($scope.everything[$scope.estrutura]["auxilio_preescola"] * $scope.preescola).toFixed(2);
+		} else {
+			$scope.auxilio_preescola = '0,00';
+		};
 	};
 
 	function calcular_vencimento_basico(scope){
@@ -218,6 +231,10 @@ tabelaPcctae
 	};
 
 	function calcular_insalubridade(scope){
+		if(!scope.insalubridade){
+			scope.adicional_insalubridade = '0,00';
+			return;
+		};
 		scope.adicional_insalubridade = (scope.vencimento_basico * scope.insalubridade).toFixed(2);
 	};
 
@@ -228,6 +245,10 @@ tabelaPcctae
 	};
 
 	function calcular_gratificacao_funcao(scope){
+		if(!scope.gratificacao){
+			scope.gratificacao_basico = '0,00';
+			return;
+		};
 		var indice = scope.gratificacoes.indexOf(scope.gratificacao);
 		scope.gratificacao_basico = scope.everything[scope.estrutura].gratificacoes[indice].toFixed(2);
 	};
@@ -284,9 +305,9 @@ tabelaPcctae
 	function gratificacao_natalina_2(scope){
 		var gratificacao_natalina_2 = (parseFloat(scope.vencimento_basico) + parseFloat(scope.incentivo_qualificacao)); 
  
-		scope.outros_descontos = parseFloat(scope.desconto_inss) + parseFloat(scope.desconto_irpf) + parseFloat(scope.funpresp) + parseFloat(scope.gratificacao_natalina_1);
+		scope.desconto_natalino = parseFloat(scope.desconto_inss) + parseFloat(scope.desconto_irpf) + parseFloat(scope.funpresp) + parseFloat(scope.gratificacao_natalina_1);
 		scope.gratificacao_natalina_2 = gratificacao_natalina_2.toFixed(2);
-		scope.outros_descontos = scope.outros_descontos.toFixed(2);
+		scope.desconto_natalino = scope.desconto_natalino.toFixed(2);
 
 	};
 
@@ -314,11 +335,15 @@ tabelaPcctae
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
 		if(!scope.bruto_maior_teto)
 			return '0,00';
-		scope.funpresp = (scope.base_funpresp - teto_inss) * scope.funpresp_input;
+		scope.funpresp = (scope.base_inss - teto_inss) * scope.funpresp_input;
 		scope.funpresp = scope.funpresp.toFixed(2);
 	};
 
 	function calcular_saude(scope){
+		if(!scope.saude_idade){
+			scope.saude_suplementar = '0,00';
+			return;
+		}
 		var indice = scope.saude_idades.indexOf(scope.saude_idade);
 		var contador = 0;
 		var saude = scope.everything[scope.estrutura].saude_valor;
@@ -393,6 +418,7 @@ tabelaPcctae
     	scope.desconto_irpf_ferias = '0,00';
     	scope.previdencia_complementar = '0,00';
     	scope.funpresp = '0,00';
+    	scope.desconto_natalino = '0,00';
     	scope.outros_descontos = '0,00';
 
 	};
