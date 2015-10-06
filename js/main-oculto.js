@@ -175,7 +175,8 @@ tabelaPcctae
 		$scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) + 
 							parseFloat($scope.adicional_insalubridade);
 		$scope.base_inss = $scope.base_inss.toFixed(2);
-
+		$scope.base_funpresp = $scope.base_inss;
+		
 		if ($scope.estrutura){
 			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
 				$scope.bruto_maior_teto = true;
@@ -335,9 +336,11 @@ tabelaPcctae
 
 	function calcular_funpresp(scope){
 		var teto_inss = scope.everything[scope.estrutura].inss[2][0];
-		if(!scope.bruto_maior_teto)
-			return '0,00';
-		scope.funpresp = (scope.base_inss - teto_inss) * scope.funpresp_input;
+		if(!scope.bruto_maior_teto) {
+			$scope.funpresp = '0,00';
+			return;
+		};
+		scope.funpresp = (scope.base_funpresp - teto_inss) * scope.funpresp_input;
 		scope.funpresp = scope.funpresp.toFixed(2);
 	};
 
