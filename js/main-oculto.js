@@ -179,6 +179,8 @@ tabelaPcctae
 		if ($scope.estrutura){
 			if($scope.salario_bruto > $scope.everything[$scope.estrutura].inss[2][0]){
 				$scope.bruto_maior_teto = true;
+			} else {
+				$scope.bruto_maior_teto = false;
 			};
 			calcular_previdencia($scope);
 			if($scope.funpresp_input){
