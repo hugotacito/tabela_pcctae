@@ -87,6 +87,15 @@
 
           <div class="col s12">
             <div class="row">
+            <label class="flow-text">Jornada de Trabalho <span class='red-text'>*</span>:</label>
+            <select name="jornada" ng-change="update()" ng-model="jornada" ng-options="value.key as value.value for value in jornadas" reload-select>
+              <option value=''  selected>Escolha uma opção</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col s12">
+            <div class="row">
             <label class="flow-text">Gratificação por Função:</label>
             <select name="gratificacao" ng-change="update()" ng-model="gratificacao" ng-options="value as value for value in gratificacoes" reload-select>
               <option value=''  selected>Escolha uma opção</option>
@@ -102,7 +111,7 @@
             </select>
             </div>
           </div>
-          
+
           <div class="col s12">
             <div class="row">
               <label class="flow-text">Saúde Suplementar</label>
@@ -114,7 +123,7 @@
               </blockquote>
             </div>
           </div>
-          
+
           <div class="col s12">
             <div class="row">
             <label class="flow-text">Auxílio Pré-Escolar:</label>
@@ -168,7 +177,7 @@
               </select>
             </div>
           </div>
-          
+
           <div class="col s12">
             <h5 class="flow-text">Opções</h5>
             <div class="row">
@@ -343,7 +352,7 @@
       <a class="white-text lighten-4 center" href="#" ng-click="delete(); ">Limpar Formulário</a>
     </div>
 
-      
+
   </footer>
   <!--  Scripts-->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
