@@ -131,8 +131,12 @@ tabelaPcctae
   };
 
   $scope.update = function(){
-    if ($scope.estrutura){
-      $scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao.toFixed(2);
+    if ($scope.estrutura && $scope.jornada){
+      $scope.auxilio_alimentacao = $scope.everything[$scope.estrutura].alimentacao;
+      if($scope.jornada == 0.5) {
+        $scope.auxilio_alimentacao = $scope.auxilio_alimentacao * $scope.jornada;
+      };
+      $scope.auxilio_alimentacao = $scope.auxilio_alimentacao.toFixed(2);
       calcular_gratificacao_funcao($scope);
       calcular_auxilio_preescola($scope);
     };
@@ -177,8 +181,7 @@ tabelaPcctae
     parseFloat($scope.outras) + parseFloat($scope.auxilio_transporte) +
     parseFloat($scope.saude_suplementar);
 
-    $scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao) +
-    parseFloat($scope.adicional_insalubridade);
+    $scope.base_inss = 	parseFloat($scope.vencimento_basico) + parseFloat($scope.incentivo_qualificacao);
     $scope.base_inss = $scope.base_inss.toFixed(2);
     $scope.base_funpresp = $scope.base_inss;
 
@@ -436,7 +439,7 @@ tabelaPcctae
     jQuery('.brand-logo').focus().blur();
   });
 
-  $http.get('json/propriedades.json').success(function(data) {
+  $http.get('json/properties-oculto.json').success(function(data) {
     everything = data;
     $scope.everything = data;
     $scope.load();
