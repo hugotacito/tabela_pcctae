@@ -2,7 +2,7 @@
   "estruturas": [
     {"key" : 2015, "value" : "Março de 2015: Aumento 5% + Step (3,8%)"},
     {"key" : 2016, "value" : "Janeiro de 2016: Aumento dos Auxílios"},
-    {"key" : 2016.2, "value" : "Agosto de 2016: Aumento de 5.5% - (Previsão)"},
+    {"key" : 2016.2, "value" : "Agosto de 2016: Aumento de 5.5%"},
     {"key" : 2017, "value" : "Janeiro de 2017: Aumento de 5% + Step(3,9%) - (Previsão)"}
   ],
 
