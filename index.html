@@ -7,14 +7,19 @@
   <link type="text/css" rel="stylesheet" href="bower_components/materialize/bin/materialize.css"  media="screen,projection"/>
   <link type="text/css" rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css" media="screen,projection" />
   <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 </head>
 <body ng-controller="main-controller">
   <nav class="blue darken-2">
     <div class="container">
       <div class="nav-wrapper">
         <a id="logo-container" href="#" class="brand-logo">
-          Simulação da Tabela PCCTAE
+          <span class='hhide'>
+            Simulação da Tabela PCCTAE
+          </span>
+          <span class='lhide'>
+            Tabela PCCTAE
+          </span>
         </a>
         <ul id="nav-mobile" class="right side-nav">
           <li><a href="#">Versão Desktop</a></li>
@@ -343,7 +348,7 @@
   </div>
   <footer class="col s12 blue darken-3">
     <div class="footer-responsibility tiny-font lhide">
-      * Não somos responsáveis pelos valores apresentados aqui.<br />
+      * Não somos responsáveis pelos valores apresentados.<br />
       <a class="white-text lighten-4 center" href="#" ng-click="delete(); ">Limpar Formulário</a>
     </div>
     <div class="footer-responsibility container valign hhide">
